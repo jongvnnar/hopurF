@@ -1,0 +1,10 @@
+.*
+*.class
+src/*.class
+out/*
+*.iml
+idea/
+out/
+production
+out
+*.imi
