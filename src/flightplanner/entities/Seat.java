@@ -1,7 +1,7 @@
 package flightplanner.entities;
 
 public class Seat {
-    private final String seatNumber;
+    private String seatNumber;
     private boolean isBooked;
     public Seat(String seatNumber, boolean isBooked){
         this.seatNumber = seatNumber;
