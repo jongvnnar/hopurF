@@ -12,6 +12,7 @@ import org.junit.Test;
 
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
@@ -21,7 +22,8 @@ public class FlightTest {
     private FlightSearchController searchController;
     @Before
     public void setUp(){
-        Seat[] seats = {new Seat("ff", false)};
+        ArrayList<Seat> seats = new ArrayList<Seat>();
+        seats.add(new Seat("ff", false));
         flug1 = new Flight(1, "TF-OMG", new Airport(2, "KEF", "Keflavik"), new Airport(3, "RVK", "Reykjavik"),LocalDateTime.now(), LocalDateTime.now(),seats);
         flightController = FlightController.getInstance();
         searchController = FlightSearchController.getInstance();

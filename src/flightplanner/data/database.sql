@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS Flight(
 CREATE TABLE IF NOT EXISTS Seats(
 	seatNo VARCHAR(30),
 	flight INTEGER,
-	isBooked INT,
+	isBooked INT DEFAULT 0 NOT NULL,
 	FOREIGN KEY (flight)
         REFERENCES Flight (id)
         ON UPDATE CASCADE

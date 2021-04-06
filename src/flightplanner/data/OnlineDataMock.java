@@ -5,6 +5,7 @@ import flightplanner.entities.*;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 /**
  * Mock class to simulate a database connection that is online and always returns some object.
@@ -23,7 +24,8 @@ public class OnlineDataMock implements FlightDataConnection{
      */
     private OnlineDataMock(){
         mockSeat = new Seat("ff", false);
-        Seat[] seats = {mockSeat};
+        ArrayList<Seat> seats = new ArrayList<Seat>();
+        seats.add(mockSeat);
         mockFlight = new Flight(1, "TF-OMG", new Airport(2, "KEF", "Keflavik"), new Airport(3, "RVK", "Reykjavik"), LocalDateTime.now(), LocalDateTime.now(),seats);
         mockPerson = new Person(1, "Jon", "Jonsson", LocalDate.of(1999, 9, 9), "email@email.is", "(354) 777-777");
         mockPassenger = new Passenger(1, "Jon", "Jonsson", LocalDate.of(1999, 9, 9), "email@email.is", "(354) 777-777");

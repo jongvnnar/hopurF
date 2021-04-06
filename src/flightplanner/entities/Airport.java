@@ -21,4 +21,12 @@ public class Airport {
     public String getName() {
         return name;
     }
+
+    public String toString() {
+        return "Airport{" +
+                "ID=" + ID +
+                ", name='" + name + '\'' +
+                ", fullName='" + fullName + '\'' +
+                '}';
+    }
 }

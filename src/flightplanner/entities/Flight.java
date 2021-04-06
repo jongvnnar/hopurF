@@ -1,6 +1,7 @@
 package flightplanner.entities;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 public class Flight {
     private int ID;
@@ -9,8 +10,8 @@ public class Flight {
     private Airport arrival;
     private LocalDateTime departureTime;
     private LocalDateTime arrivalTime;
-    private Seat[] seats;
-    public Flight(int ID, String flightNo, Airport departure, Airport arrival, LocalDateTime departureTime, LocalDateTime arrivalTime,Seat[] seats){
+    private ArrayList<Seat> seats;
+    public Flight(int ID, String flightNo, Airport departure, Airport arrival, LocalDateTime departureTime, LocalDateTime arrivalTime,ArrayList<Seat> seats){
         this.ID = ID;
         this.flightNo = flightNo;
         this.departure = departure;
@@ -47,9 +48,9 @@ public class Flight {
     }
     public Seat getSeat(String seatNumber){
         // skrifa eitthvað sniðugt hér??
-        return seats[0];
+        return null;
     }
-    public Seat[] getSeats(){
+    public ArrayList<Seat> getSeats(){
         return seats;
     }
 
@@ -63,5 +64,16 @@ public class Flight {
 
     public void setFlightNo(String flightNo) {
         this.flightNo = flightNo;
+    }
+
+    public String toString() {
+        return "Flight{" +
+                "ID=" + ID +
+                ", flightNo='" + flightNo + '\'' +
+                ", departure=" + departure +
+                ", arrival=" + arrival +
+                ", departureTime=" + departureTime +
+                ", arrivalTime=" + arrivalTime +
+                '}';
     }
 }

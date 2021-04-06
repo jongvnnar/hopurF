@@ -46,4 +46,15 @@ public class Person {
     public void setID(int ID) {
         this.ID = ID;
     }
+
+    public String toString() {
+        return "Person{" +
+                "ID=" + ID +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", dateOfBirth=" + dateOfBirth +
+                ", email='" + email + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                '}';
+    }
 }
