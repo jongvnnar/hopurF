@@ -13,9 +13,19 @@ public class FlDataConnection {
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
+        finally{
+            closeConnection();
+        }
     }
-
-    public void closeConnection() {
+    private void getConnection(){
+        try{
+            conn = DriverManager.getConnection("jdbc:sqlite:flightData.db");
+        }
+        catch(Exception e){
+            System.err.println(e.getMessage());
+        }
+    }
+    private void closeConnection() {
         try {
             if (conn != null)
                 conn.close();
@@ -64,10 +74,10 @@ public class FlDataConnection {
                     nextStatement = new StringBuffer();
                 }
             }
-            conn.commit();
     }
     public void searchPerson(){
         try {
+            getConnection();
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM PERSON");
             while(rs.next()){
@@ -78,11 +88,13 @@ public class FlDataConnection {
         catch(SQLException e){
             System.out.println("virkadi ekki");
         }
+        finally{
+            closeConnection();
+        }
     }
     public static void main(String[] args) {
         FlDataConnection connection = new FlDataConnection();
         connection.searchPerson();
-        connection.closeConnection();
     }
 }
 
