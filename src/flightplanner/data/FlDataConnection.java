@@ -11,6 +11,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Map;
 
 public class FlDataConnection {
     private Connection conn = null;
@@ -120,10 +121,10 @@ public class FlDataConnection {
         Statement stmt = conn.createStatement();
         ResultSet rs = stmt.executeQuery("SELECT id, flightNo, depart, arrival, departTime, arrivalTime FROM Flight");
         ArrayList<Flight> res = new ArrayList<Flight>();
-        Airport depart = getAirportByName(rs.getString(3));
-        Airport arrival = getAirportByName(rs.getString(4));
         while(rs.next()){
             int flightId = rs.getInt(1);
+            Airport depart = getAirportByName(rs.getString(3));
+            Airport arrival = getAirportByName(rs.getString(4));
             Flight newFlight =  new Flight(flightId, rs.getString(2), depart, arrival, LocalDateTime.parse(rs.getString(5),datetimeformatter), LocalDateTime.parse(rs.getString(6), datetimeformatter), getSeatsForFlight(flightId));
             res.add(newFlight);
         }
@@ -193,7 +194,8 @@ public class FlDataConnection {
         }
     }
     public void createFlight(Flight fl) throws Exception{
-        PreparedStatement pstmt = conn.prepareStatement("INSERT INTO Flights (flightNo, depart, arrival, departTime, arrivalTime) VALUES (?, ?, ?, ?, ?)");
+        getConnection();
+        PreparedStatement pstmt = conn.prepareStatement("INSERT INTO Flight (flightNo, depart, arrival, departTime, arrivalTime) VALUES (?, ?, ?, ?, ?)");
         pstmt.setString(1, fl.getFlightNo());
         pstmt.setString(2, fl.getArrival().getName());
         pstmt.setString(3, fl.getDeparture().getName());
@@ -202,6 +204,38 @@ public class FlDataConnection {
         pstmt.executeUpdate();
         pstmt.close();
         closeConnection();
+    }
+
+    // Bætum í þetta eftir því hvort okkur langar í fleiri filtera.
+    // Ath. það er miklu sniðugra að gera þetta með map. Geri á mrg.
+    public ArrayList<Flight> getFlightsByFilter(String departure, String arrival, String departureDate, String arrivalDate) throws Exception{
+        getConnection();
+        PreparedStatement pstmt = conn.prepareStatement("select * FROM Flight WHERE "
+                + "(depart = ? or ? is null) "
+                + "and (arrival = ? or ? is null) "
+                + "and (departTime = ? or ? is null) "
+                + "and (arrivalTime = ? or ? is null)");
+        pstmt.setString(1, departure);
+        pstmt.setString(2, departure);
+        pstmt.setString(3, arrival);
+        pstmt.setString(4, arrival);
+        pstmt.setString(5, departureDate);
+        pstmt.setString(6, departureDate);
+        pstmt.setString(7, arrivalDate);
+        pstmt.setString(8, arrivalDate);
+        ResultSet rs = pstmt.executeQuery();
+        ArrayList<Flight> res = new ArrayList<Flight>();
+        while(rs.next()){
+            int flightId = rs.getInt(1);
+            Airport depart = getAirportByName(rs.getString(3));
+            Airport arrive = getAirportByName(rs.getString(4));
+            Flight newFlight =  new Flight(flightId, rs.getString(2), depart, arrive, LocalDateTime.parse(rs.getString(5),datetimeformatter), LocalDateTime.parse(rs.getString(6), datetimeformatter), getSeatsForFlight(flightId));
+            res.add(newFlight);
+        }
+        pstmt.close();
+        rs.close();
+        closeConnection();
+        return res;
     }
     public static void main(String[] args) {
         FlDataConnection connection = new FlDataConnection();
@@ -243,6 +277,16 @@ public class FlDataConnection {
             ArrayList<Person> test = connection.getAllPersons();
             System.out.println("Prenta allar manneskjur");
             for(Person e: test){
+                System.out.println(e.toString());
+            }
+        }
+        catch(Exception e){
+            System.err.println(e.getMessage());
+        }
+        try{
+            ArrayList<Flight> test = connection.getFlightsByFilter("KEF", null, null, null);
+            System.out.println("Prenta öll flug frá KEF");
+            for(Flight e: test){
                 System.out.println(e.toString());
             }
         }
