@@ -14,4 +14,10 @@ public class User extends Person {
     public String getRole() {
         return role;
     }
+
+    public String toString() {
+        return "User{" +
+                "role='" + role + '\'' +
+                '}';
+    }
 }

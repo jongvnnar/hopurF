@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS Bookings(
     	REFERENCES Person (id)
     	ON UPDATE CASCADE
     	ON DELETE CASCADE,
-    FOREIGN KEY (passenger)
+    FOREIGN KEY (customer)
         	REFERENCES Person (id)
         	ON UPDATE CASCADE
         	ON DELETE CASCADE,

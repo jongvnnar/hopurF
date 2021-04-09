@@ -1,9 +1,6 @@
 package flightplanner.data;
 
-import flightplanner.entities.Airport;
-import flightplanner.entities.Flight;
-import flightplanner.entities.Person;
-import flightplanner.entities.Seat;
+import flightplanner.entities.*;
 
 import java.io.*;
 import java.sql.*;
@@ -224,7 +221,7 @@ public class FlDataConnection {
         pstmt.setString(7, arrivalDate);
         pstmt.setString(8, arrivalDate);
         ResultSet rs = pstmt.executeQuery();
-        ArrayList<Flight> res = new ArrayList<Flight>();
+        ArrayList<Flight> res = new ArrayList<>();
         while(rs.next()){
             int flightId = rs.getInt(1);
             Airport depart = getAirportByName(rs.getString(3));
@@ -237,6 +234,153 @@ public class FlDataConnection {
         closeConnection();
         return res;
     }
+    public Booking getBooking(int id) throws Exception{
+        getConnection();
+        PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM Bookings WHERE id = ?");
+        pstmt.setInt(1,id);
+        ResultSet rs = pstmt.executeQuery();
+        Passenger passenger = getPassenger(rs.getInt("passenger"));
+        Person customer = getPerson(rs.getInt("customer"));
+        int flightId = rs.getInt("flight");
+        Flight flight = getFlightById(flightId);
+        Seat seat = new Seat(rs.getString("seatNo"), true);
+        Booking retVal = new Booking(rs.getInt(1),passenger, customer, flight, seat, rs.getInt("price"), rs.getString("billingAddress"), (rs.getInt("paymentMade")==1));
+        pstmt.close();
+        rs.close();
+        closeConnection();
+        return retVal;
+    }
+
+    public Passenger getPassenger(int id)throws Exception{
+        getConnection();
+        PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM Person WHERE id = ?");
+        pstmt.setInt(1, id);
+        ResultSet rs = pstmt.executeQuery();
+        Passenger retVal = new Passenger(rs.getInt(1), rs.getString("firstName"), rs.getString("lastName"), LocalDate.parse(rs.getString("dateOfBirth"), dateFormatter),rs.getString("email"),rs.getString("phoneNumber"));
+        retVal.setWantsFood((rs.getInt("wantsFood") == 1));
+        retVal.setExtraLuggage(rs.getString("extraLuggage"));
+        retVal.setAllergies(rs.getString("allergies"));
+        retVal.setWheelchair(rs.getString("wheelchair").equals("yes"));
+        retVal.setHealthIssues(rs.getString("healthIssues"));
+        retVal.setInsurance((rs.getInt("insurance")==1));
+        pstmt.close();
+        rs.close();
+        closeConnection();
+        return retVal;
+    }
+
+    public Person getPerson(int id) throws Exception{
+        getConnection();
+        PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM Person WHERE id = ?");
+        pstmt.setInt(1, id);
+        ResultSet rs = pstmt.executeQuery();
+        Person retVal = new Person(rs.getInt(1), rs.getString("firstName"), rs.getString("lastName"), LocalDate.parse(rs.getString("dateOfBirth"), dateFormatter),rs.getString("email"),rs.getString("phoneNumber"));
+        pstmt.close();
+        rs.close();
+        closeConnection();
+        return retVal;
+    }
+
+    public User getUser(int id) throws Exception{
+        getConnection();
+        PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM Person WHERE id = ?");
+        pstmt.setInt(1, id);
+        ResultSet rs = pstmt.executeQuery();
+        User retVal = new User(rs.getString("role"),rs.getInt(1), rs.getString("firstName"), rs.getString("lastName"), LocalDate.parse(rs.getString("dateOfBirth"), dateFormatter),rs.getString("email"),rs.getString("phoneNumber"));
+        pstmt.close();
+        rs.close();
+        closeConnection();
+        return retVal;
+    }
+
+    public ArrayList<Booking> getBookings(int flightId) throws Exception{
+        getConnection();
+        PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM Bookings WHERE flight = ?");
+        pstmt.setInt(1, flightId);
+        ResultSet rs = pstmt.executeQuery();
+        ArrayList<Booking> retVal = new ArrayList<>();
+        Flight flight = getFlightById(flightId);
+        while(rs.next()){
+            Passenger passenger = getPassenger(rs.getInt("passenger"));
+            Person customer = getPerson(rs.getInt("customer"));
+            Seat seat = new Seat(rs.getString("seatNo"), true);
+            retVal.add(new Booking(rs.getInt(1),passenger, customer, flight, seat, rs.getInt("price"), rs.getString("billingAddress"), (rs.getInt("paymentMade")==1)));
+        }
+        pstmt.close();
+        rs.close();
+        closeConnection();
+        return retVal;
+    }
+
+    //toTest
+    public void createBooking(Booking booking) throws Exception{
+        getConnection();
+        PreparedStatement pstmt = conn.prepareStatement("INSERT INTO Bookings (passenger, customer, flight, seat, price, billingAddress, paymentMade) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        pstmt.setInt(1, booking.getPassenger().getID());
+        pstmt.setInt(2, booking.getCustomer().getID());
+        pstmt.setInt(3, booking.getFlight().getID());
+        pstmt.setString(4, booking.getSeat().getSeatNumber());
+        pstmt.setInt(5, booking.getPrice());
+        pstmt.setString(6, booking.getBillingAddress());
+        int paymentMade = booking.isPaymentMade() ? 1 : 0;
+        pstmt.setInt(7, paymentMade);
+        pstmt.executeUpdate();
+        pstmt.close();
+        closeConnection();
+    }
+
+    //toTest
+    public void updateBookingFlight(int id, Flight newFlight) throws Exception{
+        getConnection();
+        PreparedStatement pstmt = conn.prepareStatement("UPDATE Booking SET flight = ? WHERE id = ?");
+        pstmt.setInt(1, newFlight.getID());
+        pstmt.setInt(2, id);
+        pstmt.executeUpdate();
+        pstmt.close();
+        closeConnection();
+    }
+
+    public Seat getSeat(int flight, int seatNo) throws Exception{
+        getConnection();
+        PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM Seats WHERE flight = ? AND seatNo = ?");
+        pstmt.setInt(1, flight);
+        pstmt.setString(2, seatNo);
+        ResultSet rs = pstmt.executeQuery();
+        Seat retVal = new Seat(rs.getString(1), (rs.getInt(2) == 1));
+        pstmt.close();
+        rs.close();
+        closeConnection();
+        return retVal;
+    }
+
+    // vantar updateSeat.
+    public void updateBookingSeat(int id, Seat newSeat) throws Exception{
+        getConnection();
+        Booking booking = getBooking(id);
+        int flightId = booking.getFlight().getID();
+        String seatNo = booking.getSeat().getSeatNumber();
+
+        PreparedStatement pstmt = conn.prepareStatement("UPDATE Booking SET seatNo = ? WHERE ");
+    }
+    /*
++ updateBookingSeat(id: int, newSeat: String): void
+
++ updateBookingArrivalTimes(flightId: int, newTime: LocalDateTime): void
+
++ updateBookingDepartureTimes(flightId: int, newTime: LocalDateTime): void
+
++ updateUserName(id: int, newName: String): void
+
++ updateDateOfBirth(id: int, newDate: LocalDate): void
+
++ updateFood(id: int, newFood: Boolean): void
+
++ updateSeat(seat: Seat, flightId: int): void
+
++ updateFlightNo(flightId: int, newNum: String): void
+
++ createPassenger(passenger: Passenger): void
+     */
     public static void main(String[] args) {
         FlDataConnection connection = new FlDataConnection();
         //connection.getAllPersons();
@@ -248,7 +392,6 @@ public class FlDataConnection {
             for(Seat e: firstFlight.getSeats()){
                 System.out.println(e.toString());
             }
-
         }catch(Exception e){
             System.out.println("fuck");
             System.err.println(e.getMessage());
@@ -293,6 +436,25 @@ public class FlDataConnection {
         catch(Exception e){
             System.err.println(e.getMessage());
         }
+        try{
+            System.out.println("Booking with id 1");
+            Booking test = connection.getBooking(1);
+            System.out.println(test.toString());
+        }
+        catch(Exception e){
+            System.err.println(e.getMessage());
+        }
+        try{
+            System.out.println("All bookings for flight id 2");
+            ArrayList<Booking> test = connection.getBookings(2);
+            for(Booking e: test){
+                System.out.println(e.toString());
+            }
+        }
+        catch(Exception e){
+            System.err.println(e.getMessage());
+        }
+
     }
 }
 

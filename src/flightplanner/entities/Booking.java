@@ -68,4 +68,17 @@ public class Booking {
     public void setPaymentMade(boolean paymentMade) {
         this.paymentMade = paymentMade;
     }
+
+    public String toString() {
+        return "Booking{" +
+                "ID=" + ID +
+                ", passenger=" + passenger +
+                ", customer=" + customer +
+                ", flight=" + flight +
+                ", seat=" + seat +
+                ", price=" + price +
+                ", billingAddress='" + billingAddress + '\'' +
+                ", paymentMade=" + paymentMade +
+                '}';
+    }
 }
