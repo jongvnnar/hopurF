@@ -339,7 +339,7 @@ public class FlDataConnection {
         pstmt.close();
         closeConnection();
     }
-
+    //toTest
     public Seat getSeat(int flight, int seatNo) throws Exception{
         getConnection();
         PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM Seats WHERE flight = ? AND seatNo = ?");
@@ -352,18 +352,94 @@ public class FlDataConnection {
         closeConnection();
         return retVal;
     }
-
-    // vantar updateSeat.
+    //toTest
     public void updateBookingSeat(int id, Seat newSeat) throws Exception{
         getConnection();
         Booking booking = getBooking(id);
         int flightId = booking.getFlight().getID();
         String seatNo = booking.getSeat().getSeatNumber();
-
-        PreparedStatement pstmt = conn.prepareStatement("UPDATE Booking SET seatNo = ? WHERE ");
+        PreparedStatement pstmt = conn.prepareStatement("UPDATE Booking SET seatNo = ? WHERE id = ?");
+        pstmt.setString(1, newSeat.getSeatNumber());
+        pstmt.setInt(2, id);
+        pstmt.close();
+        closeConnection();
     }
+    //toTest
+    public void updateSeat(int flightId, String seatNo, boolean bookOrNot) throws Exception{
+        getConnection();
+        PreparedStatement pstmt = conn.prepareStatement("UPDATE Seats SET isBooked = ? WHERE flight = ? AND seatNo = ?");
+        int isBooked = bookOrNot ? 1 : 0;
+        pstmt.setInt(1, isBooked);
+        pstmt.setInt(2, flightId);
+        pstmt.setString(3, seatNo);
+        pstmt.executeUpdate();
+        pstmt.close();
+        closeConnection();
+    }
+
+    //toTest
+
+    public void createPassenger(Passenger passenger) throws Exception{
+        getConnection();
+        String insertStatement = "INSERT INTO Person "
+                + "(firstName, lastName, dateOfBirth, email, phoneNumber, insurance, luggage, healthIssues, wantsFood, extraLuggage, allergies, wheelchair)"
+                + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+        PreparedStatement pstmt = conn.prepareStatement(insertStatement);
+        int insurance = passenger.isInsurance() ? 1 : 0;
+        int luggage = passenger.isLuggage() ? 1 : 0;
+        int wantsFood = passenger.isWantsFood() ? 1 : 0;
+        String wheelchair = passenger.isWheelchair() ? "yes" : "no";
+        pstmt.setString(1, passenger.getFirstName());
+        pstmt.setString(2, passenger.getLastName());
+        pstmt.setString(3, passenger.getDateOfBirth().format(dateFormatter));
+        pstmt.setString(4, passenger.getEmail());
+        pstmt.setString(5, passenger.getPhoneNumber());
+        pstmt.setInt(6, insurance);
+        pstmt.setInt(7, luggage);
+        pstmt.setString(8, passenger.getHealthIssues());
+        pstmt.setInt(9, wantsFood);
+        pstmt.setString(10, passenger.getExtraLuggage());
+        pstmt.setString(11, passenger.getAllergies());
+        pstmt.setString(12, wheelchair);
+        pstmt.executeUpdate();
+        pstmt.close();
+        closeConnection();
+    }
+
+    public void createPerson(Person person) throws Exception{
+        getConnection();
+        String insertStatement = "INSERT INTO Person "
+                + "(firstName, lastName, dateOfBirth, email, phoneNumber)"
+                + " VALUES (?,?,?,?,?)";
+        PreparedStatement pstmt = conn.prepareStatement(insertStatement);
+        pstmt.setString(1, person.getFirstName());
+        pstmt.setString(2, person.getLastName());
+        pstmt.setString(3, person.getDateOfBirth().format(dateFormatter));
+        pstmt.setString(4, person.getEmail());
+        pstmt.setString(5, person.getPhoneNumber());
+        pstmt.executeUpdate();
+        pstmt.close();
+        closeConnection();
+    }
+
+    public void createUser(User user) throws Exception{
+        getConnection();
+        String insertStatement = "INSERT INTO Person "
+                + "(firstName, lastName, dateOfBirth, email, phoneNumber, role)"
+                + " VALUES (?,?,?,?,?,?)";
+        PreparedStatement pstmt = conn.prepareStatement(insertStatement);
+        pstmt.setString(1, user.getFirstName());
+        pstmt.setString(2, user.getLastName());
+        pstmt.setString(3, user.getDateOfBirth().format(dateFormatter));
+        pstmt.setString(4, user.getEmail());
+        pstmt.setString(5, user.getPhoneNumber());
+        pstmt.setString(6, user.getRole());
+        pstmt.executeUpdate();
+        pstmt.close();
+        closeConnection();
+    }
+
     /*
-+ updateBookingSeat(id: int, newSeat: String): void
 
 + updateBookingArrivalTimes(flightId: int, newTime: LocalDateTime): void
 
@@ -375,11 +451,7 @@ public class FlDataConnection {
 
 + updateFood(id: int, newFood: Boolean): void
 
-+ updateSeat(seat: Seat, flightId: int): void
-
 + updateFlightNo(flightId: int, newNum: String): void
-
-+ createPassenger(passenger: Passenger): void
      */
     public static void main(String[] args) {
         FlDataConnection connection = new FlDataConnection();

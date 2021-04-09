@@ -10,6 +10,7 @@ public class Person {
     private String email;
     private String phoneNumber;
 
+    //Beila á að hafa ID hérna? gagnagrunnurinn setur ID fyrir okkur
     public Person(int id, String firstName, String lastName, LocalDate dateOfBirth, String email, String phoneNumber){
         this.ID = id;
         this.firstName =  firstName;
