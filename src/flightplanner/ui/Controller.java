@@ -16,7 +16,7 @@ public class Controller {
         searchController.setConnection(connection);
     }
 
-    public ObservableList<Airport> getAirports(){
+    public ArrayList<Airport> getAirports(){
         ArrayList<Airport> airports = null;
         try {
             airports = searchController.searchAirports();
@@ -24,6 +24,6 @@ public class Controller {
         catch(Exception e){
             System.err.println(e.getMessage());
         }
-        //return returnValue;
+        return airports;
     }
 }
