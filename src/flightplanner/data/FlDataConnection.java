@@ -340,7 +340,7 @@ public class FlDataConnection {
         closeConnection();
     }
     //toTest
-    public Seat getSeat(int flight, int seatNo) throws Exception{
+    public Seat getSeat(int flight, String seatNo) throws Exception{
         getConnection();
         PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM Seats WHERE flight = ? AND seatNo = ?");
         pstmt.setInt(1, flight);
