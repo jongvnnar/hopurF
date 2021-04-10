@@ -6,6 +6,7 @@ public class Person {
     private int ID;
     private String firstName;
     private String lastName;
+    // Setja kennitolu frekar
     private LocalDate dateOfBirth;
     private String email;
     private String phoneNumber;

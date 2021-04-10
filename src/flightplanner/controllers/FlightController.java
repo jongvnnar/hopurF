@@ -18,7 +18,7 @@ public class FlightController {
         return instance;
     }
 
-    public void changeFlightNo(int id, String newNum) throws SQLException {
+    public void changeFlightNo(int id, String newNum) throws Exception {
         Flight flight = searchController.searchFlightById(id);
         flight.setFlightNo(newNum);
     }
