@@ -56,8 +56,12 @@ public class Controller implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         departureCombo.getItems().removeAll(departureCombo.getItems());
-        departureCombo.getItems().addAll("Reykjavík", "Akureyri", "Egilsstaðir");
+        departureCombo.getItems().addAll("Reykjavík", "Akureyri", "Egilsstaðir", "Ísafjörður", "Keflavík");
         departureCombo.getSelectionModel().select("Veldu brottfararstað");
+
+        arrivalCombo.getItems().removeAll(arrivalCombo.getItems());
+        arrivalCombo.getItems().addAll("Reykjavík", "Akureyri", "Egilsstaðir", "Ísafjörður", "Keflavík");
+        arrivalCombo.getSelectionModel().select("Veldu brottfararstað");
     }
 
 }
