@@ -33,8 +33,8 @@ public class saetavalController implements Initializable {
 
 
     public void changeBookButtonPushed(ActionEvent event) throws IOException {
-        Parent saetaParent = FXMLLoader.load(getClass().getResource("upplysingar.fxml"));
-        Scene clickUpplScene = new Scene(saetaParent);
+        Parent upplParent = FXMLLoader.load(getClass().getResource("upplysingar.fxml"));
+        Scene clickUpplScene = new Scene(upplParent);
 
         //This line gets the Stage Information
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
