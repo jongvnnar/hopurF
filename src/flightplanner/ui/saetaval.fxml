@@ -44,7 +44,7 @@
             </HBox>
          </bottom>
          <center>
-            <ListView fx:id="seatListView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+            <ListView id="seatListView" fx:id="seatListView" BorderPane.alignment="CENTER" />
          </center>
       </BorderPane>
    </children>

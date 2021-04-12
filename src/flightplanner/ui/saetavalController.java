@@ -1,20 +1,21 @@
 package flightplanner.ui;
 
-<<<<<<< HEAD
-import flightplanner.controllers.FlightSearchController;
 import flightplanner.data.FlDataConnection;
 import flightplanner.entities.Seat;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
-=======
-import flightplanner.data.FlDataConnection;
 import flightplanner.entities.Info;
->>>>>>> main
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.cell.CheckBoxListCell;
 import javafx.stage.Stage;
@@ -28,6 +29,10 @@ import java.util.ResourceBundle;
 public class saetavalController implements Initializable {
     private FlDataConnection connection;
     private Info information;
+    @FXML
+    private ListView<Seat> seatListView = new ListView<>();
+    @FXML
+    private ObservableList<Seat> seatList = FXCollections.observableArrayList();
     public saetavalController(){
         connection = FlDataConnection.getInstance();
         information = Info.getInstance();
@@ -54,16 +59,30 @@ public class saetavalController implements Initializable {
         window.show();
     }
 
-    @Override
+    @FXML
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        ListView<Seat> listView = new ListView<>();
-        ArrayList<Seat> seats = connection.getSeatsForFlight(information);
-        listView.setCellFactory(CheckBoxListCell.forListView(new Callback<Seat, ObservableValue<Boolean>>() {
-            @Override
-            public ObservableValue<Boolean> call(Seat item) {
-                return item.onProperty();
+        seatListView = new ListView<>();
+        try {
+            ArrayList<Seat> seats = connection.getSeatsForFlight(information.getFlight().getID());
+            seatList.addAll(seats);
+            seatListView.setItems(seatList);
+            seatListView.setCellFactory(CheckBoxListCell.forListView(new Callback<Seat, ObservableValue<Boolean>>(){
+                @Override
+                public ObservableValue<Boolean> call(Seat item) {
+                    BooleanProperty observable = new SimpleBooleanProperty();
+                    observable.addListener((obs, wasSelected, isNowSelected) ->
+                            System.out.println("Check box for "+item.toString()+" changed from "+wasSelected+" to "+isNowSelected)
+                    );
+                    observable.set(item.isBooked());
+                    return observable;
+                    };
+            }));
+            System.out.println("uh");
+            for(Seat e: seats){
+                System.out.println(e.toString());
             }
-        }));
-
+        } catch(Exception e){
+            System.out.println(e.getMessage());
+        }
     }
 }
