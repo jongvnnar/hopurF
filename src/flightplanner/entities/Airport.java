@@ -23,10 +23,6 @@ public class Airport {
     }
 
     public String toString() {
-        return "Airport{" +
-                "ID=" + ID +
-                ", name='" + name + '\'' +
-                ", fullName='" + fullName + '\'' +
-                '}';
+        return fullName;
     }
 }
