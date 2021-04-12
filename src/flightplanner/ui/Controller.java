@@ -88,6 +88,7 @@ public class Controller implements Initializable {
         return airports;
     }
 
+
     public void filter() {
         Airport arrive = arrivalCombo.getSelectionModel().getSelectedItem();
         Airport depart = departureCombo.getSelectionModel().getSelectedItem();
@@ -115,6 +116,7 @@ public class Controller implements Initializable {
         }
     }
 
+
     /**
      * When this method is called, it will change the scene to "Bókunarstaðfesting"
      * <p>
@@ -127,10 +129,15 @@ public class Controller implements Initializable {
         Parent saetaParent = FXMLLoader.load(getClass().getResource("saetaval.fxml"));
         Scene clickSaetaScene = new Scene(saetaParent);
 
+
         //This line gets the Stage Information
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
         window.setScene(clickSaetaScene);
         window.show();
     }
+
 }
+
+
+
