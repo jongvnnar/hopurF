@@ -26,10 +26,10 @@ public class Controller implements Initializable {
     private Button bookButton;
 
     @FXML
-    private ComboBox<String> departureCombo;
+    private ComboBox<Airport> departureCombo;
 
     @FXML
-    private ComboBox<String> arrivalCombo;
+    private ComboBox<Airport> arrivalCombo;
 
     @FXML
     private DatePicker pickdateDatePicker;
@@ -60,11 +60,12 @@ public class Controller implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         departureCombo.getItems().removeAll(departureCombo.getItems());
         departureCombo.getItems().addAll(getAirportsDest());
-        departureCombo.getSelectionModel().select("Veldu brottfararstað");
+        departureCombo.setPromptText("Veldu brottfararstað");
+
 
         arrivalCombo.getItems().removeAll(arrivalCombo.getItems());
         arrivalCombo.getItems().addAll(getAirportsDest());
-        arrivalCombo.getSelectionModel().select("Veldu brottfararstað");
+        arrivalCombo.setPromptText("Veldu brottfararstað");
         try {
             flights.addAll(connection.getAllFlights());
             flightListView.setItems(flights);
@@ -73,18 +74,15 @@ public class Controller implements Initializable {
         }
     }
 
-    private ArrayList<String> getAirportsDest() {
-        ArrayList<Airport> airports;
-        ArrayList<String> retVal = new ArrayList();
+
+    private ArrayList<Airport> getAirportsDest() {
+        ArrayList<Airport> airports = null;
         try {
             airports = connection.getAirports();
-            for (Airport e : airports) {
-                retVal.add(e.getFullName());
-            }
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
-        return retVal;
+        return airports;
     }
 
 
