@@ -215,21 +215,40 @@ public class FlDataConnection {
 
     // Bætum í þetta eftir því hvort okkur langar í fleiri filtera.
     // Ath. það er miklu sniðugra að gera þetta með map. Geri á mrg.
-    public ArrayList<Flight> getFlightsByFilter(String departure, String arrival, String departureDate, String arrivalDate) throws Exception{
+    public ArrayList<Flight> getFlightsByFilter(Airport departure, Airport arrival, LocalDate departureDate) throws Exception{
         getConnection();
         PreparedStatement pstmt = conn.prepareStatement("select * FROM Flight WHERE "
                 + "(depart = ? or ? is null) "
                 + "and (arrival = ? or ? is null) "
-                + "and (departTime = ? or ? is null) "
-                + "and (arrivalTime = ? or ? is null)");
-        pstmt.setString(1, departure);
-        pstmt.setString(2, departure);
-        pstmt.setString(3, arrival);
-        pstmt.setString(4, arrival);
-        pstmt.setString(5, departureDate);
-        pstmt.setString(6, departureDate);
-        pstmt.setString(7, arrivalDate);
-        pstmt.setString(8, arrivalDate);
+                + "and (departTime >= ? or ? is null) "
+                );
+        String departString;
+        String arriveString;
+        String dateString;
+        try{
+            departString = departure.getName();
+        }
+        catch(Exception e){
+            departString = null;
+        }
+        try{
+            arriveString = arrival.getName();
+        }
+        catch(Exception e){
+            arriveString = null;
+        }
+        try{
+            dateString = departureDate.format(dateFormatter);
+        }
+        catch(Exception e){
+            dateString = null;
+        }
+        pstmt.setString(1, departString);
+        pstmt.setString(2, departString);
+        pstmt.setString(3, arriveString);
+        pstmt.setString(4, arriveString);
+        pstmt.setString(5, dateString);
+        pstmt.setString(6, dateString);
         ResultSet rs = pstmt.executeQuery();
         ArrayList<Flight> res = new ArrayList<>();
         while(rs.next()){
@@ -502,16 +521,6 @@ public class FlDataConnection {
             ArrayList<Person> test = connection.getAllPersons();
             System.out.println("Prenta allar manneskjur");
             for(Person e: test){
-                System.out.println(e.toString());
-            }
-        }
-        catch(Exception e){
-            System.err.println(e.getMessage());
-        }
-        try{
-            ArrayList<Flight> test = connection.getFlightsByFilter("KEF", null, null, null);
-            System.out.println("Prenta öll flug frá KEF");
-            for(Flight e: test){
                 System.out.println(e.toString());
             }
         }

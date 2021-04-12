@@ -18,6 +18,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -85,7 +86,19 @@ public class Controller implements Initializable {
         return airports;
     }
 
-
+    public void filter(){
+        Airport arrive = arrivalCombo.getSelectionModel().getSelectedItem();
+        Airport depart = departureCombo.getSelectionModel().getSelectedItem();
+        LocalDate departTime = pickdateDatePicker.getValue();
+        try {
+            flights.removeAll();
+            flights.addAll(connection.getFlightsByFilter(arrive, depart, departTime));
+            flightListView.setItems(flights);
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
     /**
      * When this method is called, it will change the scene to "Bókunarstaðfesting"
      * <p>
