@@ -5,7 +5,11 @@ import flightplanner.data.FlDataConnection;
 import flightplanner.entities.Airport;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
@@ -78,14 +82,14 @@ public class Controller implements Initializable {
      * - SEV
      */
 
-    //public void changeScreenButtonPushed(ActionEvent event) {
-    //Parent bookParent = FXMLLoader.load(getClass().getResource("ClickBoka.fxml"));
-    //Scene clickBokaScene = new Scene(clickBokaParent);
+    public void changeScreenButtonPushed(ActionEvent event) {
+        Parent bookParent = FXMLLoader.load(getClass().getResource("ClickBoka.fxml"));
+        Scene clickBokaScene = new Scene(bookParent);
 
-    //This line gets the Stage Information
-    //Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        //This line gets the Stage Information
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-    //window.setScene(clickBokaScene);
-    //window.show();
-    //}
+        window.setScene(clickBokaScene);
+        window.show();
+    }
 }
