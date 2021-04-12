@@ -16,3 +16,4 @@
         <Button layoutX="461.0" layoutY="349.0" mnemonicParsing="false" text="Staðfesta og loka" />
     </children>
 </AnchorPane>
+
