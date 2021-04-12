@@ -14,13 +14,13 @@ import java.util.ResourceBundle;
 
 public class clickbokaController implements Initializable {
     public void changeBookButtonPushed(ActionEvent event) throws IOException {
-        Parent upplParent = FXMLLoader.load(getClass().getResource("upplysingar.fxml"));
-        Scene clickUpplScene = new Scene(upplParent);
+        Parent bokaParent = FXMLLoader.load(getClass().getResource("sample.fxml"));
+        Scene clickBokaScene = new Scene(bokaParent);
 
         //This line gets the Stage Information
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-        window.setScene(clickUpplScene);
+        window.setScene(clickBokaScene);
         window.show();
     }
 
