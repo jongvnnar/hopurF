@@ -126,7 +126,9 @@ public class FlDataConnection {
     public ArrayList<Flight> getAllFlights() throws Exception{
         getConnection();
         Statement stmt = conn.createStatement();
-        ResultSet rs = stmt.executeQuery("SELECT id, flightNo, depart, arrival, departTime, arrivalTime FROM Flight");
+        String whereDate = "";
+        //whereDate = "where departTime >= date('now')";
+        ResultSet rs = stmt.executeQuery("SELECT id, flightNo, depart, arrival, departTime, arrivalTime FROM Flight" + whereDate);
         ArrayList<Flight> res = new ArrayList<Flight>();
         while(rs.next()){
             int flightId = rs.getInt(1);
@@ -215,16 +217,18 @@ public class FlDataConnection {
 
     // Bætum í þetta eftir því hvort okkur langar í fleiri filtera.
     // Ath. það er miklu sniðugra að gera þetta með map. Geri á mrg.
-    public ArrayList<Flight> getFlightsByFilter(Airport departure, Airport arrival, LocalDate departureDate) throws Exception{
+    public ArrayList<Flight> getFlightsByFilter(Airport departure, Airport arrival, LocalDate fromDate, LocalDate toDate) throws Exception{
         getConnection();
         PreparedStatement pstmt = conn.prepareStatement("select * FROM Flight WHERE "
                 + "(depart = ? or ? is null) "
                 + "and (arrival = ? or ? is null) "
                 + "and (departTime >= ? or ? is null) "
+                + "and (departTime <= ? or ? is null)"
                 );
         String departString;
         String arriveString;
-        String dateString;
+        String fromString;
+        String toString;
         try{
             departString = departure.getName();
         }
@@ -238,17 +242,25 @@ public class FlDataConnection {
             arriveString = null;
         }
         try{
-            dateString = departureDate.format(dateFormatter);
+            fromString = fromDate.format(dateFormatter);
         }
         catch(Exception e){
-            dateString = null;
+            fromString = null;
+        }
+        try{
+            toString = toDate.format(dateFormatter);
+        }
+        catch(Exception e){
+            toString = null;
         }
         pstmt.setString(1, departString);
         pstmt.setString(2, departString);
         pstmt.setString(3, arriveString);
         pstmt.setString(4, arriveString);
-        pstmt.setString(5, dateString);
-        pstmt.setString(6, dateString);
+        pstmt.setString(5, fromString);
+        pstmt.setString(6, fromString);
+        pstmt.setString(7, toString);
+        pstmt.setString(8, toString);
         ResultSet rs = pstmt.executeQuery();
         ArrayList<Flight> res = new ArrayList<>();
         while(rs.next()){

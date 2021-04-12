@@ -33,7 +33,10 @@ public class Controller implements Initializable {
     private ComboBox<Airport> arrivalCombo;
 
     @FXML
-    private DatePicker pickdateDatePicker;
+    private DatePicker fromDatePicker;
+
+    @FXML
+    private DatePicker toDatePicker;
 
     @FXML
     private ListView<Flight> flightListView;
@@ -89,10 +92,11 @@ public class Controller implements Initializable {
     public void filter() {
         Airport arrive = arrivalCombo.getSelectionModel().getSelectedItem();
         Airport depart = departureCombo.getSelectionModel().getSelectedItem();
-        LocalDate departTime = pickdateDatePicker.getValue();
+        LocalDate fromTime = fromDatePicker.getValue();
+        LocalDate toTime = toDatePicker.getValue();
         try {
             flights.clear();
-            flights.addAll(connection.getFlightsByFilter(arrive, depart, departTime));
+            flights.addAll(connection.getFlightsByFilter(arrive, depart, fromTime, toTime));
             flightListView.setItems(flights);
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -107,8 +111,6 @@ public class Controller implements Initializable {
      * gluggi upp með næsta scene-i
      * - SEV
      */
-
-
     public void changeScreenButtonPushed(ActionEvent event) throws IOException {
         Parent saetaParent = FXMLLoader.load(getClass().getResource("saetaval.fxml"));
         Scene clickSaetaScene = new Scene(saetaParent);
