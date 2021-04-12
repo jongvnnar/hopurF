@@ -89,7 +89,7 @@ public class Controller implements Initializable {
         return airports;
     }
 
-    public void filter(){
+    public void filter() {
         Airport arrive = arrivalCombo.getSelectionModel().getSelectedItem();
         Airport depart = departureCombo.getSelectionModel().getSelectedItem();
         LocalDate fromTime = fromDatePicker.getValue();
@@ -98,8 +98,7 @@ public class Controller implements Initializable {
             flights.clear();
             flights.addAll(connection.getFlightsByFilter(arrive, depart, fromTime, toTime));
             flightListView.setItems(flights);
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }

@@ -6,18 +6,17 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="flightplanner.ui.Upplysingar">
-   <children>
-      <TextField fx:id="firstnameTextField" layoutX="32.0" layoutY="52.0" promptText="Fornafn" />
-      <TextField fx:id="lastnameTextField" layoutX="32.0" layoutY="102.0" promptText="Eftirnafn" />
-      <TextField fx:id="ssTextField" layoutX="32.0" layoutY="151.0" promptText="Kennitala" />
-      <CheckBox layoutX="384.0" layoutY="56.0" mnemonicParsing="false" text="Farangur" />
-      <TextField fx:id="ssTextField1" layoutX="32.0" layoutY="200.0" promptText="Netfang" />
-      <CheckBox layoutX="384.0" layoutY="94.0" mnemonicParsing="false" text="Sérstakur farangur" />
-      <CheckBox layoutX="384.0" layoutY="134.0" mnemonicParsing="false" text="Matur" />
-      <CheckBox layoutX="383.0" layoutY="176.0" mnemonicParsing="false" text="Hjólastóll" />
-      <TextArea layoutX="383.0" layoutY="219.0" prefHeight="65.0" prefWidth="142.0" promptText="Önnur heilsufarsvandamál" />
-      <Button layoutX="396.0" layoutY="332.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="142.0" text="Bóka" />
-   </children>
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="flightplanner.ui.upplysingarController">
+    <children>
+        <TextField fx:id="firstnameTextField" layoutX="32.0" layoutY="52.0" promptText="Fornafn" />
+        <TextField fx:id="lastnameTextField" layoutX="32.0" layoutY="102.0" promptText="Eftirnafn" />
+        <TextField fx:id="ssTextField" layoutX="32.0" layoutY="151.0" promptText="Kennitala" />
+        <CheckBox layoutX="384.0" layoutY="56.0" mnemonicParsing="false" text="Farangur" />
+        <TextField fx:id="ssTextField1" layoutX="32.0" layoutY="200.0" promptText="Netfang" />
+        <CheckBox layoutX="384.0" layoutY="94.0" mnemonicParsing="false" text="Sérstakur farangur" />
+        <CheckBox layoutX="384.0" layoutY="134.0" mnemonicParsing="false" text="Matur" />
+        <CheckBox layoutX="383.0" layoutY="176.0" mnemonicParsing="false" text="Hjólastóll" />
+        <TextArea layoutX="383.0" layoutY="219.0" prefHeight="65.0" prefWidth="142.0" promptText="Önnur heilsufarsvandamál" />
+        <Button layoutX="396.0" layoutY="332.0" mnemonicParsing="false" onAction="#changeBookButtonPushed" prefHeight="40.0" prefWidth="142.0" text="Bóka" />
+    </children>
 </AnchorPane>
