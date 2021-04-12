@@ -3,12 +3,15 @@ package flightplanner.ui;
 import flightplanner.controllers.FlightSearchController;
 import flightplanner.data.FlDataConnection;
 import flightplanner.entities.Airport;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -68,7 +71,7 @@ public class Controller implements Initializable {
     }
 
 
-    /**
+    /*
      * When this method is called, it will change the scene to "Bókunarstaðfesting"
      * <p>
      * oookidoki hér er fullt af villum en þegar þetta fæst til að virka þá á þetta
@@ -76,6 +79,8 @@ public class Controller implements Initializable {
      * gluggi upp með næsta scene-i
      * - SEV
      */
+
+
     public void changeScreenButtonPushed(ActionEvent event) {
         Parent bookParent = FXMLLoader.load(getClass().getResource("ClickBoka.fxml"));
         Scene clickBokaScene = new Scene(clickBokaParent);
@@ -86,3 +91,6 @@ public class Controller implements Initializable {
         window.setScene(clickBokaScene);
         window.show();
     }
+
+
+}
