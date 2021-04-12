@@ -1,6 +1,5 @@
 package flightplanner.ui;
 
-import flightplanner.controllers.FlightSearchController;
 import flightplanner.data.FlDataConnection;
 import flightplanner.entities.Airport;
 import flightplanner.entities.Flight;
@@ -54,6 +53,7 @@ public class Controller implements Initializable {
     private ObservableList<Flight> flights = FXCollections.observableArrayList();
     private FlDataConnection connection;
     private Info information;
+
     public Controller() {
         connection = FlDataConnection.getInstance();
         information = Info.getInstance();
@@ -100,7 +100,8 @@ public class Controller implements Initializable {
             System.out.println(e.getMessage());
         }
     }
-    public void clearFilters(){
+
+    public void clearFilters() {
         arrivalCombo.getSelectionModel().select(null);
         departureCombo.getSelectionModel().select(null);
         fromDatePicker.setValue(null);
@@ -114,9 +115,10 @@ public class Controller implements Initializable {
         }
     }
 
-    private void saveInfo(){
+    private void saveInfo() {
         information.setFlight(flightListView.getSelectionModel().getSelectedItem());
     }
+
     /**
      * When this method is called, it will change the scene to "Bókunarstaðfesting"
      * <p>
@@ -128,6 +130,7 @@ public class Controller implements Initializable {
     public void changeScreenButtonPushed(ActionEvent event) throws IOException {
         saveInfo();
         Parent saetaParent = FXMLLoader.load(getClass().getResource("saetaval.fxml"));
+
         Scene clickSaetaScene = new Scene(saetaParent);
 
         //This line gets the Stage Information

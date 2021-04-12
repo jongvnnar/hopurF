@@ -26,7 +26,7 @@
         </AnchorPane>
     </left>
     <center>
-        <AnchorPane prefHeight="400.0" prefWidth="400.0" BorderPane.alignment="CENTER">
+        <AnchorPane minHeight="400.0" minWidth="400.0" prefHeight="400.0" prefWidth="400.0" BorderPane.alignment="CENTER">
             <children>
                 <ListView fx:id="flightListView" layoutX="92.0" layoutY="39.0" prefHeight="301.0" prefWidth="200.0" />
                 <Button fx:id="bookButton" layoutX="276.0" layoutY="354.0" mnemonicParsing="false" onAction="#changeScreenButtonPushed" prefHeight="32.0" prefWidth="93.0" text="Finna sæti" />
