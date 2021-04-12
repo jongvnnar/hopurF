@@ -1,29 +1,31 @@
 package flightplanner.entities;
 
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
+
 public class Seat {
-    private String seatNumber;
-    private boolean isBooked;
+    private SimpleStringProperty seatNumber;
+    private SimpleBooleanProperty isBooked;
     public Seat(String seatNumber, boolean isBooked){
-        this.seatNumber = seatNumber;
-        this.isBooked = isBooked;
+        this.seatNumber = new SimpleStringProperty(seatNumber);
+        this.isBooked = new SimpleBooleanProperty(isBooked);
     }
 
     public String getSeatNumber() {
-        return seatNumber;
+        return seatNumber.get();
     }
 
     public boolean isBooked() {
-        return isBooked;
+        return isBooked.get();
     }
 
     public void setBooked(boolean booked) {
-        isBooked = booked;
+        isBooked.set(booked);
     }
-
+    public SimpleBooleanProperty getBookedProperty(){
+        return isBooked;
+    }
     public String toString() {
-        return "Seat{" +
-                "seatNumber='" + seatNumber + '\'' +
-                ", isBooked=" + isBooked +
-                '}';
+        return getSeatNumber();
     }
 }

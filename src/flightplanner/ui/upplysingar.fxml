@@ -17,6 +17,6 @@
         <CheckBox layoutX="384.0" layoutY="134.0" mnemonicParsing="false" text="Matur" />
         <CheckBox layoutX="383.0" layoutY="176.0" mnemonicParsing="false" text="Hjólastóll" />
         <TextArea layoutX="383.0" layoutY="219.0" prefHeight="65.0" prefWidth="142.0" promptText="Önnur heilsufarsvandamál" />
-        <Button layoutX="396.0" layoutY="332.0" mnemonicParsing="false" onAction="#changeBookButtonPushed" prefHeight="40.0" prefWidth="142.0" text="Bóka" />
+        <Button layoutX="396.0" layoutY="332.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="142.0" text="Bóka" />
     </children>
 </AnchorPane>
