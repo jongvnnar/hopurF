@@ -1,5 +1,6 @@
 package flightplanner.data;
 
+import flightplanner.controllers.FlightSearchController;
 import flightplanner.entities.*;
 
 import java.io.*;
@@ -14,6 +15,7 @@ public class FlDataConnection {
     private Connection conn = null;
     private final DateTimeFormatter datetimeformatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private static FlDataConnection instance = null;
 
     public FlDataConnection() {
         try {
@@ -26,6 +28,14 @@ public class FlDataConnection {
             closeConnection();
         }
     }
+
+    public static FlDataConnection getInstance(){
+        if(instance == null){
+            instance = new FlDataConnection();
+        }
+        return instance;
+    }
+
     private void getConnection(){
         try{
             Class.forName("org.sqlite.JDBC");
