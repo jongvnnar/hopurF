@@ -3,6 +3,9 @@ package flightplanner.ui;
 import flightplanner.controllers.FlightSearchController;
 import flightplanner.data.FlDataConnection;
 import flightplanner.entities.Airport;
+import flightplanner.entities.Flight;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,16 +25,16 @@ public class Controller implements Initializable {
     private Button bookButton;
 
     @FXML
-    private ComboBox departureCombo;
+    private ComboBox<String> departureCombo;
 
     @FXML
-    private ComboBox arrivalCombo;
+    private ComboBox<String> arrivalCombo;
 
     @FXML
     private DatePicker pickdateDatePicker;
 
     @FXML
-    private ListView flightListView;
+    private ListView<Flight> flightListView;
 
     @FXML
     private TextField firstnameTextField;
@@ -40,34 +43,47 @@ public class Controller implements Initializable {
 
     @FXML
     private TextField ssTextField;
+
+    private ObservableList<Flight> flights = FXCollections.observableArrayList();
     FlightSearchController searchController;
     FlDataConnection connection;
 
     public Controller() {
-        connection = new FlDataConnection();
+        connection = FlDataConnection.getInstance();
         searchController = FlightSearchController.getInstance();
         searchController.setConnection(connection);
-    }
 
-    public ArrayList<Airport> getAirports() {
-        ArrayList<Airport> airports = null;
-        try {
-            airports = searchController.searchAirports();
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
-        }
-        return airports;
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         departureCombo.getItems().removeAll(departureCombo.getItems());
-        departureCombo.getItems().addAll("Reykjavík", "Akureyri", "Egilsstaðir", "Ísafjörður", "Keflavík");
+        departureCombo.getItems().addAll(getAirportsDest());
         departureCombo.getSelectionModel().select("Veldu brottfararstað");
 
         arrivalCombo.getItems().removeAll(arrivalCombo.getItems());
-        arrivalCombo.getItems().addAll("Reykjavík", "Akureyri", "Egilsstaðir", "Ísafjörður", "Keflavík");
+        arrivalCombo.getItems().addAll(getAirportsDest());
         arrivalCombo.getSelectionModel().select("Veldu brottfararstað");
+        try {
+            flights.addAll(connection.getAllFlights());
+            flightListView.setItems(flights);
+        } catch(Exception e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
+    private ArrayList<String> getAirportsDest(){
+        ArrayList<Airport> airports;
+        ArrayList<String> retVal = new ArrayList();
+        try {
+            airports = connection.getAirports();
+            for(Airport e: airports){
+                retVal.add(e.getFullName());
+            }
+        }catch(Exception e){
+            System.err.println(e.getMessage());
+        }
+        return retVal;
     }
 
 
