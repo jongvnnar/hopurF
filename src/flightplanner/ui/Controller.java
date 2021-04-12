@@ -79,8 +79,8 @@ public class Controller implements Initializable {
      * gluggi upp með næsta scene-i
      * - SEV
      */
-    public void changeScreenButtonPushed(ActionEvent event) throws Exception{
-        Parent bookParent = FXMLLoader.load(getClass().getResource("clickboka.fxml"));
+    public void changeScreenButtonPushed(ActionEvent event) throws Exception {
+        Parent bookParent = FXMLLoader.load(getClass().getResource("ClickBoka.fxml"));
         Scene clickBokaScene = new Scene(bookParent);
 
         //This line gets the Stage Information
