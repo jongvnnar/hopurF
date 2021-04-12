@@ -89,7 +89,7 @@ public class Controller implements Initializable {
         Airport depart = departureCombo.getSelectionModel().getSelectedItem();
         LocalDate departTime = pickdateDatePicker.getValue();
         try {
-            flights.removeAll();
+            flights.clear();
             flights.addAll(connection.getFlightsByFilter(arrive, depart, departTime));
             flightListView.setItems(flights);
         }
