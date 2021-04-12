@@ -129,14 +129,12 @@ public class Controller implements Initializable {
         Parent saetaParent = FXMLLoader.load(getClass().getResource("saetaval.fxml"));
         Scene clickSaetaScene = new Scene(saetaParent);
 
-
         //This line gets the Stage Information
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
         window.setScene(clickSaetaScene);
         window.show();
     }
-
 }
 
 

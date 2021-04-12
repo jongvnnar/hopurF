@@ -40,6 +40,4 @@ public class saetavalController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
     }
-
-
 }
