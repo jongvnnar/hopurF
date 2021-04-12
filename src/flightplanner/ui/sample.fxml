@@ -5,7 +5,6 @@
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 
@@ -25,12 +24,8 @@
     <center>
         <AnchorPane prefHeight="400.0" prefWidth="400.0" BorderPane.alignment="CENTER">
             <children>
-                <ListView fx:id="flightListView" layoutX="-6.0" layoutY="50.0" prefHeight="301.0" prefWidth="200.0" />
-                <TextField fx:id="firstnameTextField" layoutX="216.0" layoutY="58.0" promptText="Fornafn" />
-                <TextField fx:id="lastnameTextField" layoutX="216.0" layoutY="93.0" promptText="Eftirnafn" />
-                <Label layoutX="238.0" layoutY="33.0" text="Farþegaupplýsingar" />
-                <TextField fx:id="ssTextField" layoutX="216.0" layoutY="127.0" promptText="Kennitala" />
-                <Button fx:id="bookButton" layoutX="299.0" layoutY="338.0" mnemonicParsing="false" onAction="#changeScreenButtonPushed" text="Bóka flug" />
+                <ListView fx:id="flightListView" layoutX="92.0" layoutY="39.0" prefHeight="301.0" prefWidth="200.0" />
+                <Button fx:id="bookButton" layoutX="276.0" layoutY="354.0" mnemonicParsing="false" onAction="#changeScreenButtonPushed" prefHeight="32.0" prefWidth="93.0" text="Finna sæti" />
             </children>
         </AnchorPane>
     </center>
