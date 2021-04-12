@@ -4,6 +4,7 @@ import flightplanner.controllers.FlightSearchController;
 import flightplanner.data.FlDataConnection;
 import flightplanner.entities.Airport;
 import flightplanner.entities.Flight;
+import flightplanner.entities.Info;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -51,14 +52,11 @@ public class Controller implements Initializable {
     private TextField ssTextField;
 
     private ObservableList<Flight> flights = FXCollections.observableArrayList();
-    FlightSearchController searchController;
-    FlDataConnection connection;
-
+    private FlDataConnection connection;
+    private Info information;
     public Controller() {
         connection = FlDataConnection.getInstance();
-        searchController = FlightSearchController.getInstance();
-        searchController.setConnection(connection);
-
+        information = Info.getInstance();
     }
 
     @Override
@@ -116,7 +114,9 @@ public class Controller implements Initializable {
         }
     }
 
-
+    private void saveInfo(){
+        information.setFlight(flightListView.getSelectionModel().getSelectedItem());
+    }
     /**
      * When this method is called, it will change the scene to "Bókunarstaðfesting"
      * <p>
@@ -126,6 +126,7 @@ public class Controller implements Initializable {
      * - SEV
      */
     public void changeScreenButtonPushed(ActionEvent event) throws IOException {
+        saveInfo();
         Parent saetaParent = FXMLLoader.load(getClass().getResource("saetaval.fxml"));
         Scene clickSaetaScene = new Scene(saetaParent);
 

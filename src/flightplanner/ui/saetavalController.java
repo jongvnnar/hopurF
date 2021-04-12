@@ -1,5 +1,7 @@
 package flightplanner.ui;
 
+import flightplanner.data.FlDataConnection;
+import flightplanner.entities.Info;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -12,8 +14,14 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class saetavalController implements Initializable {
 
+public class saetavalController implements Initializable {
+    private FlDataConnection connection;
+    private Info information;
+    public saetavalController(){
+        connection = FlDataConnection.getInstance();
+        information = Info.getInstance();
+    }
     public void changeBookButtonPushed(ActionEvent event) throws IOException {
         Parent upplParent = FXMLLoader.load(getClass().getResource("upplysingar.fxml"));
         Scene clickUpplScene = new Scene(upplParent);
