@@ -14,7 +14,7 @@ import java.util.ResourceBundle;
 
 public class saetavalController implements Initializable {
 
-    public void changeScreenButtonPushed(ActionEvent event) throws IOException {
+    public void changeBookButtonPushed(ActionEvent event) throws IOException {
         Parent upplParent = FXMLLoader.load(getClass().getResource("upplysingar.fxml"));
         Scene clickUpplScene = new Scene(upplParent);
 
@@ -22,6 +22,17 @@ public class saetavalController implements Initializable {
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
         window.setScene(clickUpplScene);
+        window.show();
+    }
+
+    public void changeScreenButtonPushed(ActionEvent event) throws IOException {
+        Parent saetaParent = FXMLLoader.load(getClass().getResource("sample.fxml"));
+        Scene clickSaetaScene = new Scene(saetaParent);
+
+        //This line gets the Stage Information
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        window.setScene(clickSaetaScene);
         window.show();
     }
 

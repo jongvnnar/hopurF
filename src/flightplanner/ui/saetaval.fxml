@@ -9,6 +9,7 @@
     <children>
         <ListView layoutX="200.0" layoutY="100.0" prefHeight="200.0" prefWidth="200.0" />
         <Label layoutX="263.0" layoutY="57.0" text="Veldu sæti" />
-      <Button layoutX="462.0" layoutY="330.0" mnemonicParsing="false" onAction="#changeScreenButtonPushed" text="Áfram" />
+      <Button layoutX="462.0" layoutY="330.0" mnemonicParsing="false" onAction="#changeBookButtonPushed" text="Áfram" />
+      <Button layoutX="84.0" layoutY="330.0" mnemonicParsing="false" onAction="#changeScreenButtonPushed" text="Til baka" />
     </children>
 </AnchorPane>
