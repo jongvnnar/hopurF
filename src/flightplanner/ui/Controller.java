@@ -81,21 +81,17 @@ public class Controller implements Initializable {
      */
 
 
-    public void changeScreenButtonPushed(ActionEvent event) {
+    public void changeScreenButtonPushed(ActionEvent event) throws Exception {
+        Parent bookParent = FXMLLoader.load(getClass().getResource("ClickBoka.fxml"));
+        Scene clickBokaScene = new Scene(bookParent);
 
-        public void changeScreenButtonPushed (ActionEvent event) throws Exception {
-            Parent bookParent = FXMLLoader.load(getClass().getResource("ClickBoka.fxml"));
-            Scene clickBokaScene = new Scene(bookParent);
+        //This line gets the Stage Information
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-            //This line gets the Stage Information
-            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-            window.setScene(clickBokaScene);
-            window.show();
-        }
-
-
-
-=======
->>>>>>>a0e8e6ab74d132e07187375645acf5b4f7ed6306
+        window.setScene(clickBokaScene);
+        window.show();
     }
+
+}
+
+
