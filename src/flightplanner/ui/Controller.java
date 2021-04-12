@@ -86,7 +86,7 @@ public class Controller implements Initializable {
         return airports;
     }
 
-    public void filter(){
+    public void filter() {
         Airport arrive = arrivalCombo.getSelectionModel().getSelectedItem();
         Airport depart = departureCombo.getSelectionModel().getSelectedItem();
         LocalDate departTime = pickdateDatePicker.getValue();
@@ -94,11 +94,11 @@ public class Controller implements Initializable {
             flights.removeAll();
             flights.addAll(connection.getFlightsByFilter(arrive, depart, departTime));
             flightListView.setItems(flights);
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
+
     /**
      * When this method is called, it will change the scene to "Bókunarstaðfesting"
      * <p>
