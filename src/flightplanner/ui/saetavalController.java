@@ -1,9 +1,14 @@
 package flightplanner.ui;
 
+<<<<<<< HEAD
 import flightplanner.controllers.FlightSearchController;
 import flightplanner.data.FlDataConnection;
 import flightplanner.entities.Seat;
 import javafx.beans.value.ObservableValue;
+=======
+import flightplanner.data.FlDataConnection;
+import flightplanner.entities.Info;
+>>>>>>> main
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -21,18 +26,12 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class saetavalController implements Initializable {
-    private ListView<Seat> seatListView;
-
-    FlightSearchController searchController;
-    FlDataConnection connection;
-
-    public saetavalController() {
+    private FlDataConnection connection;
+    private Info information;
+    public saetavalController(){
         connection = FlDataConnection.getInstance();
-        searchController = FlightSearchController.getInstance();
-        searchController.setConnection(connection);
-
+        information = Info.getInstance();
     }
-
     public void changeBookButtonPushed(ActionEvent event) throws IOException {
         Parent upplParent = FXMLLoader.load(getClass().getResource("upplysingar.fxml"));
         Scene clickUpplScene = new Scene(upplParent);
@@ -58,7 +57,7 @@ public class saetavalController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ListView<Seat> listView = new ListView<>();
-        ArrayList<Seat> seats = connection.getSeatsForFlight(information)
+        ArrayList<Seat> seats = connection.getSeatsForFlight(information);
         listView.setCellFactory(CheckBoxListCell.forListView(new Callback<Seat, ObservableValue<Boolean>>() {
             @Override
             public ObservableValue<Boolean> call(Seat item) {
