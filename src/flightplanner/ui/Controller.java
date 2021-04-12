@@ -7,10 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-<<<<<<< HEAD
 import javafx.scene.Node;
-=======
->>>>>>> 4f3b940dc063ce0ee3652cec9e2b4cef316a43bf
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
