@@ -5,7 +5,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="flightplanner.ui.clickbokaController">
     <children>
         <Label layoutX="63.0" layoutY="47.0" text="Bókunarstaðfesting">
@@ -13,7 +12,6 @@
                 <Font name="System Bold" size="14.0" />
             </font>
         </Label>
-        <Button layoutX="461.0" layoutY="349.0" mnemonicParsing="false" text="Staðfesta og loka" />
+        <Button layoutX="461.0" layoutY="349.0" mnemonicParsing="false" onAction="#changeBookButtonPushed" text="Staðfesta og loka" />
     </children>
 </AnchorPane>
-
