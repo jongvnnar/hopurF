@@ -25,7 +25,8 @@ import java.util.ResourceBundle;
 public class Controller implements Initializable {
     @FXML
     private Button bookButton;
-
+    @FXML
+    private Button clearFiltersButton;
     @FXML
     private ComboBox<Airport> departureCombo;
 
@@ -64,12 +65,10 @@ public class Controller implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         departureCombo.getItems().removeAll(departureCombo.getItems());
         departureCombo.getItems().addAll(getAirportsDest());
-        departureCombo.setPromptText("Veldu brottfararstað");
 
 
         arrivalCombo.getItems().removeAll(arrivalCombo.getItems());
         arrivalCombo.getItems().addAll(getAirportsDest());
-        arrivalCombo.setPromptText("Veldu brottfararstað");
         try {
             flights.addAll(connection.getAllFlights());
             flightListView.setItems(flights);
@@ -100,6 +99,19 @@ public class Controller implements Initializable {
             flightListView.setItems(flights);
         } catch (Exception e) {
             System.out.println(e.getMessage());
+        }
+    }
+    public void clearFilters(){
+        arrivalCombo.getSelectionModel().select(null);
+        departureCombo.getSelectionModel().select(null);
+        fromDatePicker.setValue(null);
+        toDatePicker.setValue(null);
+        try {
+            flights.clear();
+            flights.addAll(connection.getAllFlights());
+            flightListView.setItems(flights);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
         }
     }
 

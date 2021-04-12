@@ -21,6 +21,7 @@
             <Label layoutX="16.0" layoutY="231.0" text="Frá" />
             <Label layoutX="17.0" layoutY="281.0" text="Til" />
             <DatePicker fx:id="toDatePicker" layoutX="13.0" layoutY="298.0" onAction="#filter" />
+            <Button fx:id="clearFiltersButton" layoutX="14.0" layoutY="351.0" mnemonicParsing="false" onAction="#clearFilters" text="Hreinsa síu" />
             </children>
         </AnchorPane>
     </left>
