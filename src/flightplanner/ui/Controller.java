@@ -16,6 +16,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -67,20 +68,20 @@ public class Controller implements Initializable {
         try {
             flights.addAll(connection.getAllFlights());
             flightListView.setItems(flights);
-        } catch(Exception e) {
+        } catch (Exception e) {
             System.err.println(e.getMessage());
         }
     }
 
-    private ArrayList<String> getAirportsDest(){
+    private ArrayList<String> getAirportsDest() {
         ArrayList<Airport> airports;
         ArrayList<String> retVal = new ArrayList();
         try {
             airports = connection.getAirports();
-            for(Airport e: airports){
+            for (Airport e : airports) {
                 retVal.add(e.getFullName());
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             System.err.println(e.getMessage());
         }
         return retVal;
@@ -95,14 +96,16 @@ public class Controller implements Initializable {
      * gluggi upp með næsta scene-i
      * - SEV
      */
-    public void changeScreenButtonPushed(ActionEvent event) throws Exception {
-        Parent bookParent = FXMLLoader.load(getClass().getResource("ClickBoka.fxml"));
-        Scene clickBokaScene = new Scene(bookParent);
+
+
+    public void changeScreenButtonPushed(ActionEvent event) throws IOException {
+        Parent saetaParent = FXMLLoader.load(getClass().getResource("saetaval.fxml"));
+        Scene clickSaetaScene = new Scene(saetaParent);
 
         //This line gets the Stage Information
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-        window.setScene(clickBokaScene);
+        window.setScene(clickSaetaScene);
         window.show();
     }
 }
