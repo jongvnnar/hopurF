@@ -1,9 +1,12 @@
 package flightplanner.ui;
 
 import flightplanner.data.FlDataConnection;
+import flightplanner.entities.Person;
 import flightplanner.entities.Seat;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import flightplanner.entities.Info;
 import javafx.collections.FXCollections;
@@ -12,12 +15,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.HPos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxListCell;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
@@ -30,13 +34,13 @@ public class saetavalController implements Initializable {
     private FlDataConnection connection;
     private Info information;
     @FXML
-    private ListView<Seat> seatListView = new ListView<>();
-    @FXML
-    private ObservableList<Seat> seatList = FXCollections.observableArrayList();
-    public saetavalController(){
+    private GridPane gridPane;
+
+    public saetavalController() {
         connection = FlDataConnection.getInstance();
         information = Info.getInstance();
     }
+
     public void changeBookButtonPushed(ActionEvent event) throws IOException {
         Parent upplParent = FXMLLoader.load(getClass().getResource("upplysingar.fxml"));
         Scene clickUpplScene = new Scene(upplParent);
@@ -61,28 +65,66 @@ public class saetavalController implements Initializable {
 
     @FXML
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        seatListView = new ListView<>();
         try {
             ArrayList<Seat> seats = connection.getSeatsForFlight(information.getFlight().getID());
-            seatList.addAll(seats);
-            seatListView.setItems(seatList);
-            seatListView.setCellFactory(CheckBoxListCell.forListView(new Callback<Seat, ObservableValue<Boolean>>(){
-                @Override
-                public ObservableValue<Boolean> call(Seat item) {
-                    BooleanProperty observable = new SimpleBooleanProperty();
-                    observable.addListener((obs, wasSelected, isNowSelected) ->
-                            System.out.println("Check box for "+item.toString()+" changed from "+wasSelected+" to "+isNowSelected)
-                    );
-                    observable.set(item.isBooked());
-                    return observable;
-                    };
-            }));
-            System.out.println("uh");
             for(Seat e: seats){
-                System.out.println(e.toString());
+                String seatNum = e.getSeatNumber();
+                int[] colRow = getPlacementFromText(seatNum);
+                Button btn = new Button(seatNum);
+                btn.setDisable(e.isBooked());
+                if(e.isBooked()){
+                    btn.setStyle("-fx-background-color: Red");
+                }
+                else{
+                    btn.setStyle("-fx-background-color: Lightblue");
+                }
+                btn.setOnAction(event -> {
+                    if("-fx-background-color: Green".equals(btn.getStyle())){
+                        btn.setStyle("-fx-background-color: Lightblue");
+                        information.setSeat(null);
+                    }else{
+                        Seat oldSeat = information.getSeat();
+                        btn.setStyle("-fx-background-color: Green");
+                        if(oldSeat != null) {
+                            String oldseatNum = information.getSeat().getSeatNumber();
+                            int oldcol = oldseatNum.charAt(oldseatNum.length() - 1);
+                            oldcol = oldcol - 65;
+                            int oldrow = Integer.parseInt(oldseatNum.substring(0, oldseatNum.length() - 1)) - 1;
+                            System.out.println("oldcol " + oldcol + ", oldrow " + oldrow);
+                            Node node = getNodeFromGridPane(gridPane, oldcol, oldrow);
+                            if (node != null) node.setStyle("-fx-background-color: Lightblue");
+                        }
+                        try {
+                            information.setSeat(connection.getSeat(information.getFlight().getID(), btn.getText()));
+                        }
+                        catch(Exception f){
+                            System.err.println(f.getMessage());
+                        }
+                    }
+                });
+
+                GridPane.setHalignment(btn, HPos.CENTER);
+                btn.setPrefWidth(50.0);
+                gridPane.add(btn, colRow[0], colRow[1]);
+                //gridPane.add(new Label(seatNum), col, row);
             }
         } catch(Exception e){
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
         }
+    }
+    private int[] getPlacementFromText(String seatNum){
+        int col = seatNum.charAt(seatNum.length()-1);
+        col = col - 65;
+        int row = Integer.parseInt(seatNum.substring(0, seatNum.length()-1)) -1;
+        int[] retVal = {col, row};
+        return retVal;
+    }
+    private Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
+        for (Node node : gridPane.getChildren()) {
+            if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {
+                return node;
+            }
+        }
+        return null;
     }
 }
