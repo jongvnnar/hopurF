@@ -142,11 +142,11 @@ public class upplysingarController implements Initializable {
                     TextArea textArea = (TextArea)e;
                     textArea.clear();
                 }
-                if(e instanceof TextField){
+                else if(e instanceof TextField){
                     TextField textField = (TextField) e;
                     textField.clear();
                 }
-                if(e instanceof CheckBox){
+                else if(e instanceof CheckBox){
                     CheckBox checkBox = (CheckBox) e;
                     checkBox.setSelected(false);
                 }

@@ -94,7 +94,6 @@ public class saetavalController implements Initializable {
                 GridPane.setHalignment(btn, HPos.CENTER);
                 btn.setPrefWidth(50.0);
                 gridPane.add(btn, colRow[0], colRow[1]);
-                //gridPane.add(new Label(seatNum), col, row);
             }
         } catch (Exception e) {
             System.err.println(e.getMessage());
