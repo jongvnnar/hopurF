@@ -146,5 +146,6 @@
       </Label>
       <Label fx:id="extraLuggageLabel" alignment="TOP_LEFT" layoutX="223.0" layoutY="377.0" prefHeight="101.0" prefWidth="129.0" />
       <Label fx:id="healthIssuesLabel" alignment="TOP_LEFT" layoutX="353.0" layoutY="377.0" prefHeight="101.0" prefWidth="202.0" />
+      <Button layoutX="27.0" layoutY="495.0" mnemonicParsing="false" onAction="#changeScreenButtonPushed" text="Til baka" />
     </children>
 </AnchorPane>

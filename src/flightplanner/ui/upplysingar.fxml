@@ -16,10 +16,11 @@
         <CheckBox fx:id="foodCheck" layoutX="384.0" layoutY="85.0" mnemonicParsing="false" text="Matur" />
         <CheckBox fx:id="wheelchairCheck" layoutX="384.0" layoutY="113.0" mnemonicParsing="false" text="Hjólastóll" />
         <TextArea fx:id="healthIssues" layoutX="382.0" layoutY="246.0" prefHeight="65.0" prefWidth="142.0" promptText="Önnur heilsufarsvandamál" />
-        <Button layoutX="396.0" layoutY="332.0" mnemonicParsing="false" onAction="#changeBookButtonPushed" prefHeight="40.0" prefWidth="142.0" text="Bóka" />
+        <Button layoutX="396.0" layoutY="332.0" mnemonicParsing="false" onAction="#changeScreenButtonPushed" prefHeight="40.0" prefWidth="142.0" text="Bóka" />
       <CheckBox fx:id="bookForSelf" layoutX="32.0" layoutY="332.0" mnemonicParsing="false" onAction="#setupBooking" text="Ég er að bóka fyrir sjálfa/n mig" />
       <CheckBox fx:id="insuranceCheck" layoutX="384.0" layoutY="142.0" mnemonicParsing="false" text="Hefur tryggingu" />
       <TextArea fx:id="extraLuggage" layoutX="382.0" layoutY="167.0" prefHeight="65.0" prefWidth="142.0" promptText="Sérlagaður farangur" />
       <TextField fx:id="phoneTextField" layoutX="33.0" layoutY="244.0" promptText="Símanúmer" />
+      <Button layoutX="33.0" layoutY="360.0" mnemonicParsing="false" onAction="#changeBookButtonPushed" text="Til baka" />
     </children>
 </AnchorPane>

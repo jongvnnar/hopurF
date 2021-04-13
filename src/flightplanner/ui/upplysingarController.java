@@ -55,7 +55,7 @@ public class upplysingarController implements Initializable {
         information = Info.getInstance();
     }
 
-    public void changeBookButtonPushed(ActionEvent event) throws IOException {
+    public void changeScreenButtonPushed(ActionEvent event) throws IOException {
         if(isFullyFilled()) {
             saveInfo();
             Parent bokaParent = FXMLLoader.load(getClass().getResource("clickboka.fxml"));
@@ -70,6 +70,16 @@ public class upplysingarController implements Initializable {
             a.setContentText("Fylla þarf alla mikilvæga textareiti");
             a.show();
         }
+    }
+    public void changeBookButtonPushed(ActionEvent event) throws IOException {
+        Parent upplParent = FXMLLoader.load(getClass().getResource("saetaval.fxml"));
+        Scene clickUpplScene = new Scene(upplParent);
+
+        //This line gets the Stage Information
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        window.setScene(clickUpplScene);
+        window.show();
     }
 
 

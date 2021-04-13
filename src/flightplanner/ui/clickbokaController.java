@@ -9,6 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -52,6 +53,15 @@ public class clickbokaController implements Initializable {
         connection = FlDataConnection.getInstance();
         information = Info.getInstance();
     }
+    public void changeScreenButtonPushed(ActionEvent event) throws IOException {
+            Parent bokaParent = FXMLLoader.load(getClass().getResource("upplysingar.fxml"));
+            Scene clickBokaScene = new Scene(bokaParent);
+            //This line gets the Stage Information
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            window.setScene(clickBokaScene);
+            window.show();
+        }
 
     public void changeBookButtonPushed(ActionEvent event) throws IOException {
         try{
@@ -67,6 +77,10 @@ public class clickbokaController implements Initializable {
 
         window.setScene(clickBokaScene);
         window.show();
+
+        Alert a = new Alert(Alert.AlertType.CONFIRMATION);
+        a.setContentText("Bókun staðfest. Takk fyrir að fljúga með okkur");
+        a.show();
     }
     public void createBooking() throws Exception{
         // Öll flug kosta sem sagt 100000 kr hjá okkur núna :))))))))
