@@ -100,6 +100,9 @@ public class clickbokaController implements Initializable {
         // ef ekki þá búa til nýjan passenger
         else{
             connection.createPassenger(passenger);
+            // og sækja og uppfæra ID fyrir félagann í leiðinni.
+            int passengerID = connection.getPassenger(passenger.getKennitala()).getID();
+            booking.getPassenger().setID(passengerID);
         }
         // Búa til bókun
         connection.createBooking(booking);

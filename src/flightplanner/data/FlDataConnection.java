@@ -310,6 +310,24 @@ public class FlDataConnection {
         return retVal;
     }
 
+    public Passenger getPassenger(String kennitala)throws Exception{
+        getConnection();
+        PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM Person WHERE kennitala = ?");
+        pstmt.setString(1, kennitala);
+        ResultSet rs = pstmt.executeQuery();
+        Passenger retVal = new Passenger(rs.getInt(1), rs.getString("firstName"), rs.getString("lastName"), rs.getString("kennitala"),rs.getString("email"),rs.getString("phoneNumber"));
+        retVal.setWantsFood((rs.getInt("wantsFood") == 1));
+        retVal.setExtraLuggage(rs.getString("extraLuggage"));
+        retVal.setAllergies(rs.getString("allergies"));
+        retVal.setWheelchair(rs.getString("wheelchair").equals("yes"));
+        retVal.setHealthIssues(rs.getString("healthIssues"));
+        retVal.setInsurance((rs.getInt("insurance")==1));
+        pstmt.close();
+        rs.close();
+        closeConnection();
+        return retVal;
+    }
+
     public Person getPerson(int id) throws Exception{
         getConnection();
         PreparedStatement pstmt = conn.prepareStatement("SELECT (id, firstName, lastName, kennitala, email, phoneNumber) FROM Person WHERE id = ?");
@@ -326,6 +344,19 @@ public class FlDataConnection {
         getConnection();
         PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM Person WHERE id = ?");
         pstmt.setInt(1, id);
+        ResultSet rs = pstmt.executeQuery();
+        User retVal = new User(rs.getString("role"),rs.getInt(1), rs.getString("firstName"), rs.getString("lastName"), rs.getString("kennitala"),rs.getString("email"),rs.getString("phoneNumber"));
+        pstmt.close();
+        rs.close();
+        closeConnection();
+        return retVal;
+    }
+
+    public User getUser(String email, String password) throws Exception{
+        getConnection();
+        PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM Person WHERE email = ? AND password = ?");
+        pstmt.setString(1, email);
+        pstmt.setString(2, password);
         ResultSet rs = pstmt.executeQuery();
         User retVal = new User(rs.getString("role"),rs.getInt(1), rs.getString("firstName"), rs.getString("lastName"), rs.getString("kennitala"),rs.getString("email"),rs.getString("phoneNumber"));
         pstmt.close();
