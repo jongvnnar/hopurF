@@ -70,15 +70,6 @@ public class Booking {
     }
 
     public String toString() {
-        return "Booking{" +
-                "ID=" + ID +
-                ", passenger=" + passenger +
-                ", customer=" + customer +
-                ", flight=" + flight +
-                ", seat=" + seat +
-                ", price=" + price +
-                ", billingAddress='" + billingAddress + '\'' +
-                ", paymentMade=" + paymentMade +
-                '}';
+        return "Farþegi: " + passenger.getFirstName() + " " + passenger.getLastName() + "Flug: " + flight.getFlightNo() + ", " + flight.getDeparture().getName() + " -> " + flight.getArrival().getName();
     }
 }
