@@ -4,10 +4,12 @@ public class Airport {
     private final int ID;
     private final String name;
     private final String fullName;
-    public Airport(int ID, String name, String fullName){
+    private final String cityName;
+    public Airport(int ID, String name, String fullName, String cityName){
         this.ID = ID;
         this.name = name;
         this.fullName = fullName;
+        this.cityName = cityName;
     }
 
     public int getID() {
@@ -22,7 +24,10 @@ public class Airport {
         return name;
     }
 
+    public String getCityName(){
+        return cityName;
+    }
     public String toString() {
-        return fullName;
+        return cityName;
     }
 }

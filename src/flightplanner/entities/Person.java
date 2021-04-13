@@ -7,17 +7,16 @@ public class Person {
     private String firstName;
     private String lastName;
     // Setja kennitolu frekar
-    private LocalDate dateOfBirth;
+    private String kennitala;
     private String email;
     private String phoneNumber;
-
     //Beila á að hafa ID hérna? gagnagrunnurinn setur ID fyrir okkur
-    public Person(int id, String firstName, String lastName, LocalDate dateOfBirth, String email, String phoneNumber){
+    public Person(int id, String firstName, String lastName, String kennitala, String email, String phoneNumber){
         this.ID = id;
         this.firstName =  firstName;
         this.lastName = lastName;
         this.email = email;
-        this.dateOfBirth = dateOfBirth;
+        this.kennitala = kennitala;
         this.phoneNumber = phoneNumber;
     }
 
@@ -33,8 +32,8 @@ public class Person {
         return email;
     }
 
-    public LocalDate getDateOfBirth() {
-        return dateOfBirth;
+    public String getKennitala() {
+        return kennitala;
     }
 
     public String getPhoneNumber() {
@@ -54,7 +53,7 @@ public class Person {
                 "ID=" + ID +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", dateOfBirth=" + dateOfBirth +
+                ", kennitala=" + kennitala +
                 ", email='" + email + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 '}';

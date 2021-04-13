@@ -11,7 +11,7 @@ public class OfflineDataMock implements FlightDataConnection{
 
     private OfflineDataMock(){
         //Seat[] seats = {new Seat("ff", false)};
-        mockSearchFlight = new Flight(1, "TF-OMG", new Airport(2, "KEF", "Keflavik"), new Airport(3, "RVK", "Reykjavik"), LocalDateTime.now(), LocalDateTime.now(),null);
+        mockSearchFlight = new Flight(1, "TF-OMG", new Airport(2, "KEF", "Keflavik", "keflavik"), new Airport(3, "RVK", "Reykjavik", "keflavik"), LocalDateTime.now(), LocalDateTime.now(),null);
     }
 
     public static FlightDataConnection getInstance(){

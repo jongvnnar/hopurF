@@ -12,8 +12,8 @@ public class Passenger extends Person{
     private String allergies = "";
     private boolean wheelchair = false;
     // skodum þetta betur, þessi constructor er insane
-    public Passenger(int id, String firstName, String lastName, LocalDate dateOfBirth, String email, String phoneNumber) {
-        super(id, firstName, lastName, dateOfBirth, email, phoneNumber);
+    public Passenger(int id, String firstName, String lastName, String kennitala, String email, String phoneNumber) {
+        super(id, firstName, lastName, kennitala, email, phoneNumber);
     }
 
     public void setInsurance(boolean insurance) {

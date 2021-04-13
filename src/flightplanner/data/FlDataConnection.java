@@ -102,7 +102,7 @@ public class FlDataConnection {
         ResultSet rs = stmt.executeQuery("SELECT * FROM PERSON");
         ArrayList<Person> res = new ArrayList<Person>();
         while (rs.next()) {
-            res.add(new Person(rs.getInt("id"),rs.getString("firstName"), rs.getString("lastName"), LocalDate.parse(rs.getString("dateOfBirth"),dateFormatter),rs.getString("email"),rs.getString("phoneNumber")));
+            res.add(new Person(rs.getInt("id"),rs.getString("firstName"), rs.getString("lastName"), rs.getString("kennitala"),rs.getString("email"),rs.getString("phoneNumber")));
         }
         rs.close();
         closeConnection();
@@ -147,7 +147,7 @@ public class FlDataConnection {
         PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM Airport WHERE name = ?");
         pstmt.setString(1, name);
         ResultSet rs = pstmt.executeQuery();
-        Airport ret = new Airport(rs.getInt(1), rs.getString(2), rs.getString(3));
+        Airport ret = new Airport(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4));
         pstmt.close();
         rs.close();
         closeConnection();
@@ -157,10 +157,10 @@ public class FlDataConnection {
     public ArrayList<Airport> getAirports() throws Exception{
         getConnection();
         Statement stmt = conn.createStatement();
-        ResultSet rs = stmt.executeQuery("SELECT id, name, fullName FROM Airport");
+        ResultSet rs = stmt.executeQuery("SELECT * FROM Airport");
         ArrayList<Airport> res = new ArrayList<Airport>();
         while(rs.next()) {
-            res.add(new Airport(rs.getInt("id"), rs.getString("name"), rs.getString("fullName")));
+            res.add(new Airport(rs.getInt("id"), rs.getString("name"), rs.getString("fullName"), rs.getString("cityName")));
         }
         rs.close();
         closeConnection();
@@ -297,7 +297,7 @@ public class FlDataConnection {
         PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM Person WHERE id = ?");
         pstmt.setInt(1, id);
         ResultSet rs = pstmt.executeQuery();
-        Passenger retVal = new Passenger(rs.getInt(1), rs.getString("firstName"), rs.getString("lastName"), LocalDate.parse(rs.getString("dateOfBirth"), dateFormatter),rs.getString("email"),rs.getString("phoneNumber"));
+        Passenger retVal = new Passenger(rs.getInt(1), rs.getString("firstName"), rs.getString("lastName"), rs.getString("kennitala"),rs.getString("email"),rs.getString("phoneNumber"));
         retVal.setWantsFood((rs.getInt("wantsFood") == 1));
         retVal.setExtraLuggage(rs.getString("extraLuggage"));
         retVal.setAllergies(rs.getString("allergies"));
@@ -312,10 +312,10 @@ public class FlDataConnection {
 
     public Person getPerson(int id) throws Exception{
         getConnection();
-        PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM Person WHERE id = ?");
+        PreparedStatement pstmt = conn.prepareStatement("SELECT (id, firstName, lastName, kennitala, email, phoneNumber) FROM Person WHERE id = ?");
         pstmt.setInt(1, id);
         ResultSet rs = pstmt.executeQuery();
-        Person retVal = new Person(rs.getInt(1), rs.getString("firstName"), rs.getString("lastName"), LocalDate.parse(rs.getString("dateOfBirth"), dateFormatter),rs.getString("email"),rs.getString("phoneNumber"));
+        Person retVal = new Person(rs.getInt(1), rs.getString("firstName"), rs.getString("lastName"), rs.getString("kennitala"),rs.getString("email"),rs.getString("phoneNumber"));
         pstmt.close();
         rs.close();
         closeConnection();
@@ -327,7 +327,7 @@ public class FlDataConnection {
         PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM Person WHERE id = ?");
         pstmt.setInt(1, id);
         ResultSet rs = pstmt.executeQuery();
-        User retVal = new User(rs.getString("role"),rs.getInt(1), rs.getString("firstName"), rs.getString("lastName"), LocalDate.parse(rs.getString("dateOfBirth"), dateFormatter),rs.getString("email"),rs.getString("phoneNumber"));
+        User retVal = new User(rs.getString("role"),rs.getInt(1), rs.getString("firstName"), rs.getString("lastName"), rs.getString("kennitala"),rs.getString("email"),rs.getString("phoneNumber"));
         pstmt.close();
         rs.close();
         closeConnection();
@@ -356,7 +356,7 @@ public class FlDataConnection {
     //toTest
     public void createBooking(Booking booking) throws Exception{
         getConnection();
-        PreparedStatement pstmt = conn.prepareStatement("INSERT INTO Bookings (passenger, customer, flight, seat, price, billingAddress, paymentMade) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        PreparedStatement pstmt = conn.prepareStatement("INSERT INTO Bookings (passenger, customer, flight, seatNo, price, billingAddress, paymentMade) VALUES (?, ?, ?, ?, ?, ?, ?)");
         pstmt.setInt(1, booking.getPassenger().getID());
         pstmt.setInt(2, booking.getCustomer().getID());
         pstmt.setInt(3, booking.getFlight().getID());
@@ -418,12 +418,24 @@ public class FlDataConnection {
         closeConnection();
     }
 
+    public String getPassword(String email) throws Exception{
+        getConnection();
+        PreparedStatement pstmt = conn.prepareStatement("SELECT (password) FROM Person WHERE email = ?");
+        pstmt.setString(1, email);
+        ResultSet rs = pstmt.executeQuery();
+        String retVal = rs.getString("password");
+        rs.close();
+        pstmt.close();
+        closeConnection();
+        return retVal;
+    }
+
     //toTest
 
     public void createPassenger(Passenger passenger) throws Exception{
         getConnection();
         String insertStatement = "INSERT INTO Person "
-                + "(firstName, lastName, dateOfBirth, email, phoneNumber, insurance, luggage, healthIssues, wantsFood, extraLuggage, allergies, wheelchair)"
+                + "(firstName, lastName, kennitala, email, phoneNumber, insurance, luggage, healthIssues, wantsFood, extraLuggage, allergies, wheelchair)"
                 + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
         PreparedStatement pstmt = conn.prepareStatement(insertStatement);
         int insurance = passenger.isInsurance() ? 1 : 0;
@@ -432,7 +444,7 @@ public class FlDataConnection {
         String wheelchair = passenger.isWheelchair() ? "yes" : "no";
         pstmt.setString(1, passenger.getFirstName());
         pstmt.setString(2, passenger.getLastName());
-        pstmt.setString(3, passenger.getDateOfBirth().format(dateFormatter));
+        pstmt.setString(3, passenger.getKennitala());
         pstmt.setString(4, passenger.getEmail());
         pstmt.setString(5, passenger.getPhoneNumber());
         pstmt.setInt(6, insurance);
@@ -446,16 +458,37 @@ public class FlDataConnection {
         pstmt.close();
         closeConnection();
     }
-
+    public void updatePassenger(Passenger passenger) throws Exception{
+        getConnection();
+        String insertStatement = "UPDATE Person "
+                + "SET insurance = ?, luggage = ?, healthIssues = ?, wantsFood = ?, extraLuggage = ?, allergies = ?, wheelchair = ?"
+                + "WHERE kennitala = ?";
+        PreparedStatement pstmt = conn.prepareStatement(insertStatement);
+        int insurance = passenger.isInsurance() ? 1 : 0;
+        int luggage = passenger.isLuggage() ? 1 : 0;
+        int wantsFood = passenger.isWantsFood() ? 1 : 0;
+        String wheelchair = passenger.isWheelchair() ? "yes" : "no";
+        pstmt.setInt(1, insurance);
+        pstmt.setInt(2, luggage);
+        pstmt.setString(3, passenger.getHealthIssues());
+        pstmt.setInt(4, wantsFood);
+        pstmt.setString(5, passenger.getExtraLuggage());
+        pstmt.setString(6, passenger.getAllergies());
+        pstmt.setString(7, wheelchair);
+        pstmt.setString(8, passenger.getKennitala());
+        pstmt.executeUpdate();
+        pstmt.close();
+        closeConnection();
+    }
     public void createPerson(Person person) throws Exception{
         getConnection();
         String insertStatement = "INSERT INTO Person "
-                + "(firstName, lastName, dateOfBirth, email, phoneNumber)"
+                + "(firstName, lastName, kennitala, email, phoneNumber)"
                 + " VALUES (?,?,?,?,?)";
         PreparedStatement pstmt = conn.prepareStatement(insertStatement);
         pstmt.setString(1, person.getFirstName());
         pstmt.setString(2, person.getLastName());
-        pstmt.setString(3, person.getDateOfBirth().format(dateFormatter));
+        pstmt.setString(3, person.getKennitala());
         pstmt.setString(4, person.getEmail());
         pstmt.setString(5, person.getPhoneNumber());
         pstmt.executeUpdate();
@@ -466,15 +499,16 @@ public class FlDataConnection {
     public void createUser(User user) throws Exception{
         getConnection();
         String insertStatement = "INSERT INTO Person "
-                + "(firstName, lastName, dateOfBirth, email, phoneNumber, role)"
+                + "(firstName, lastName, kennitala, email, phoneNumber, role, password)"
                 + " VALUES (?,?,?,?,?,?)";
         PreparedStatement pstmt = conn.prepareStatement(insertStatement);
         pstmt.setString(1, user.getFirstName());
         pstmt.setString(2, user.getLastName());
-        pstmt.setString(3, user.getDateOfBirth().format(dateFormatter));
+        pstmt.setString(3, user.getKennitala());
         pstmt.setString(4, user.getEmail());
         pstmt.setString(5, user.getPhoneNumber());
         pstmt.setString(6, user.getRole());
+        pstmt.setString(7, user.getPassword());
         pstmt.executeUpdate();
         pstmt.close();
         closeConnection();
@@ -557,7 +591,6 @@ public class FlDataConnection {
         catch(Exception e){
             System.err.println(e.getMessage());
         }
-
     }
 }
 
