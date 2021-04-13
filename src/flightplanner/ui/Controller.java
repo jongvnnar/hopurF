@@ -97,7 +97,7 @@ public class Controller implements Initializable {
             flights.addAll(connection.getFlightsByFilter(arrive, depart, fromTime, toTime));
             flightListView.setItems(flights);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
         }
     }
 
@@ -137,6 +137,18 @@ public class Controller implements Initializable {
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
         window.setScene(clickSaetaScene);
+        window.show();
+    }
+
+    public void changeToProfile(ActionEvent event) throws IOException{
+        Parent profileParent = FXMLLoader.load(getClass().getResource("profile.fxml"));
+
+        Scene clickProfileScene = new Scene(profileParent);
+
+        //This line gets the Stage Information
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        window.setScene(clickProfileScene);
         window.show();
     }
 }

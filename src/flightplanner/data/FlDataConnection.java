@@ -330,7 +330,7 @@ public class FlDataConnection {
 
     public Person getPerson(int id) throws Exception{
         getConnection();
-        PreparedStatement pstmt = conn.prepareStatement("SELECT (id, firstName, lastName, kennitala, email, phoneNumber) FROM Person WHERE id = ?");
+        PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM Person WHERE id = ?");
         pstmt.setInt(1, id);
         ResultSet rs = pstmt.executeQuery();
         Person retVal = new Person(rs.getInt(1), rs.getString("firstName"), rs.getString("lastName"), rs.getString("kennitala"),rs.getString("email"),rs.getString("phoneNumber"));
@@ -365,16 +365,18 @@ public class FlDataConnection {
         return retVal;
     }
 
-    public ArrayList<Booking> getBookings(int flightId) throws Exception{
+    public ArrayList<Booking> getBookings(int userID) throws Exception{
         getConnection();
-        PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM Bookings WHERE flight = ?");
-        pstmt.setInt(1, flightId);
+        PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM Bookings WHERE customer = ?");
+        pstmt.setInt(1, userID);
         ResultSet rs = pstmt.executeQuery();
+        //Person customer = getPerson(userID);
         ArrayList<Booking> retVal = new ArrayList<>();
-        Flight flight = getFlightById(flightId);
         while(rs.next()){
             Passenger passenger = getPassenger(rs.getInt("passenger"));
             Person customer = getPerson(rs.getInt("customer"));
+            int flightId = rs.getInt("flight");
+            Flight flight = getFlightById(flightId);
             Seat seat = new Seat(rs.getString("seatNo"), true);
             retVal.add(new Booking(rs.getInt(1),passenger, customer, flight, seat, rs.getInt("price"), rs.getString("billingAddress"), (rs.getInt("paymentMade")==1)));
         }
@@ -605,8 +607,8 @@ public class FlDataConnection {
             System.err.println(e.getMessage());
         }
         try{
-            System.out.println("Booking with id 1");
-            Booking test = connection.getBooking(1);
+            System.out.println("Booking with id 2");
+            Booking test = connection.getBooking(2);
             System.out.println(test.toString());
         }
         catch(Exception e){

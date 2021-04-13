@@ -74,7 +74,6 @@ public class upplysingarController implements Initializable {
     public void changeBookButtonPushed(ActionEvent event) throws IOException {
         Parent upplParent = FXMLLoader.load(getClass().getResource("saetaval.fxml"));
         Scene clickUpplScene = new Scene(upplParent);
-
         //This line gets the Stage Information
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
 

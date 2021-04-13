@@ -1,5 +1,7 @@
 package flightplanner.entities;
 
+import java.time.format.DateTimeFormatter;
+
 public class Booking {
     private int ID;
     private Passenger passenger;
@@ -70,6 +72,6 @@ public class Booking {
     }
 
     public String toString() {
-        return "Farþegi: " + passenger.getFirstName() + " " + passenger.getLastName() + "Flug: " + flight.getFlightNo() + ", " + flight.getDeparture().getName() + " -> " + flight.getArrival().getName();
+        return "Farþegi: " + passenger.getFirstName() + " " + passenger.getLastName() + ". Flug: " + flight.getFlightNo() + ", " + flight.getDeparture().getName() + " -> " + flight.getArrival().getName() + ". Dags: " + flight.getDepartureTime().format(DateTimeFormatter.ofPattern("yy-MM-dd"));
     }
 }
