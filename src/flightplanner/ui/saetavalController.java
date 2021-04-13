@@ -80,7 +80,6 @@ public class saetavalController implements Initializable {
                             int oldcol = oldseatNum.charAt(oldseatNum.length() - 1);
                             oldcol = oldcol - 65;
                             int oldrow = Integer.parseInt(oldseatNum.substring(0, oldseatNum.length() - 1)) - 1;
-                            System.out.println("oldcol " + oldcol + ", oldrow " + oldrow);
                             Node node = getNodeFromGridPane(gridPane, oldcol, oldrow);
                             if (node != null) node.setStyle("-fx-background-color: Lightblue");
                         }
