@@ -6,12 +6,11 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="200.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="flightplanner.ui.Login">
+<AnchorPane prefHeight="200.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="flightplanner.ui.loginController">
    <children>
       <TextField layoutX="89.0" layoutY="67.0" promptText="Tölvupóstur" />
       <PasswordField layoutX="89.0" layoutY="100.0" promptText="Lykilorð" />
-      <Button layoutX="340.0" layoutY="199.0" mnemonicParsing="false" text="Finna flug" AnchorPane.bottomAnchor="4.0" AnchorPane.rightAnchor="4.0" />
+      <Button layoutX="340.0" layoutY="199.0" mnemonicParsing="false" onAction="#changeBookButtonPushed" text="Finna flug" AnchorPane.bottomAnchor="4.0" AnchorPane.rightAnchor="4.0" />
       <Label layoutX="98.0" layoutY="34.0" text="Innskráning notenda" />
    </children>
 </AnchorPane>
