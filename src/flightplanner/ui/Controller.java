@@ -119,14 +119,7 @@ public class Controller implements Initializable {
         information.setFlight(flightListView.getSelectionModel().getSelectedItem());
     }
 
-    /**
-     * When this method is called, it will change the scene to "Bókunarstaðfesting"
-     * <p>
-     * oookidoki hér er fullt af villum en þegar þetta fæst til að virka þá á þetta
-     * að virka þannig að þegar maður keyrir og ýtir á "Bóka" þá poppar nýr scenebuilder
-     * gluggi upp með næsta scene-i
-     * - SEV
-     */
+
     public void changeScreenButtonPushed(ActionEvent event) throws IOException {
         saveInfo();
         Parent saetaParent = FXMLLoader.load(getClass().getResource("saetaval.fxml"));
