@@ -151,6 +151,18 @@ public class Controller implements Initializable {
         window.setScene(clickProfileScene);
         window.show();
     }
+
+    public void changeTologin(ActionEvent event) throws IOException{
+        Parent loginParent = FXMLLoader.load(getClass().getResource("login.fxml"));
+
+        Scene clickloginScene = new Scene(loginParent);
+
+        //This line gets the Stage Information
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        window.setScene(clickloginScene);
+        window.show();
+    }
 }
 
 
