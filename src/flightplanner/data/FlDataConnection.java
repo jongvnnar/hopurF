@@ -126,8 +126,8 @@ public class FlDataConnection {
     public ArrayList<Flight> getAllFlights() throws Exception{
         getConnection();
         Statement stmt = conn.createStatement();
-        String whereDate = "";
-        //whereDate = "where departTime >= date('now')";
+        //String whereDate = "";
+        String whereDate = "where departTime >= date('now')";
         ResultSet rs = stmt.executeQuery("SELECT id, flightNo, depart, arrival, departTime, arrivalTime FROM Flight" + whereDate);
         ArrayList<Flight> res = new ArrayList<Flight>();
         while(rs.next()){
@@ -230,7 +230,7 @@ public class FlDataConnection {
         closeConnection();
     }
 
-    // Bætum í þetta eftir því hvort okkur langar í fleiri filtera.
+    // Bætum í þetta egtir því hvort okkur langar í fleiri filtera.
     // Ath. það er miklu sniðugra að gera þetta með map. Geri á mrg.
     public ArrayList<Flight> getFlightsByFilter(Airport departure, Airport arrival, LocalDate fromDate, LocalDate toDate) throws Exception{
         getConnection();
