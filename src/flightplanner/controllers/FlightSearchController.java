@@ -1,17 +1,16 @@
 package flightplanner.controllers;
 
 import flightplanner.data.FlDataConnection;
-import flightplanner.data.FlightDataConnection;
 import flightplanner.entities.*;
 
-import java.sql.SQLException;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class FlightSearchController{
     private static FlightSearchController instance = null;
-    private FlDataConnection dataConnection = null;
+    private FlDataConnection connection = null;
     private FlightSearchController(){
+        connection = FlDataConnection.getInstance();
     }
 
     public static FlightSearchController getInstance(){
@@ -21,22 +20,34 @@ public class FlightSearchController{
         return instance;
     }
 
-    public void setConnection(FlDataConnection dataConnection){
-        this.dataConnection = dataConnection;
-    }
-
     public Flight searchFlightById(int id) throws Exception{
-        return dataConnection.getFlightById(id);
+        return connection.getFlightById(id);
     }
     public Person searchPerson(int userId) throws Exception{
-        return dataConnection.getPerson(userId);
+        return connection.getPerson(userId);
     }
 
     public Booking searchBooking(int id) throws Exception{
-        return dataConnection.getBooking(id);
+        return connection.getBooking(id);
     }
 
-    public ArrayList<Airport> searchAirports() throws Exception{
-        return dataConnection.getAirports();
+    public ArrayList<Airport> getAirports() {
+        ArrayList<Airport> airports = null;
+        try {
+            airports = connection.getAirports();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+        return airports;
     }
+
+    public ArrayList<Flight> getAllFlights() throws Exception{
+        return connection.getAllFlights();
+    }
+
+    public ArrayList<Flight> searchFlightsByFilter(Airport departure, Airport destination, LocalDate fromTime, LocalDate toTime) throws Exception{
+        return connection.getFlightsByFilter(departure, destination, fromTime, toTime);
+    }
+
+
 }
