@@ -144,7 +144,7 @@ public class FlDataConnection {
 
     public Airport getAirportByName(String name) throws Exception{
         getConnection();
-        PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM Airport WHERE name = ?");
+        PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM Airport WHERE mame = ?");
         pstmt.setString(1, name);
         ResultSet rs = pstmt.executeQuery();
         Airport ret = new Airport(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4));
@@ -152,6 +152,21 @@ public class FlDataConnection {
         rs.close();
         closeConnection();
         return ret;
+    }
+
+    public ArrayList<Airport> getAirportCityName(String cityName) throws Exception{
+        getConnection();
+        PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM Airport WHERE cityName = ?");
+        pstmt.setString(1, cityName);
+        ResultSet rs = pstmt.executeQuery();
+        ArrayList<Airport> res = new ArrayList<Airport>();
+        while(rs.next()) {
+            res.add(new Airport(rs.getInt("id"), rs.getString("name"), rs.getString("fullName"), rs.getString("cityName")));
+        }
+        pstmt.close();
+        rs.close();
+        closeConnection();
+        return res;
     }
 
     public ArrayList<Airport> getAirports() throws Exception{

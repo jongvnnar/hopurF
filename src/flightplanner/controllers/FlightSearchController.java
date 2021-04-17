@@ -8,9 +8,11 @@ import java.util.ArrayList;
 
 public class FlightSearchController{
     private static FlightSearchController instance = null;
-    private FlDataConnection connection = null;
+    private FlDataConnection connection;
+    private Info information;
     private FlightSearchController(){
         connection = FlDataConnection.getInstance();
+        information = Info.getInstance();
     }
 
     public static FlightSearchController getInstance(){
@@ -40,6 +42,9 @@ public class FlightSearchController{
         }
         return airports;
     }
+    public ArrayList<Airport> getAirportByCity(String cityName) throws Exception{
+        return connection.getAirportCityName(cityName);
+    }
 
     public ArrayList<Flight> getAllFlights() throws Exception{
         return connection.getAllFlights();
@@ -49,5 +54,7 @@ public class FlightSearchController{
         return connection.getFlightsByFilter(departure, destination, fromTime, toTime);
     }
 
-
+    public ArrayList<Booking> getBookingsForUser() throws Exception{
+        return connection.getBookings(information.getUser().getID());
+    }
 }
