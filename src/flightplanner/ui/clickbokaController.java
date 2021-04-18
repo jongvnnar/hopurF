@@ -89,7 +89,7 @@ public class clickbokaController implements Initializable {
         User customer = information.getUser();
         Flight flight = information.getFlight();
         Seat seat = information.getSeat();
-        Booking booking = new Booking(-1, passenger, customer, flight, seat, 10000, "", false);
+        Booking booking = new Booking(-1, passenger, customer, flight, seat, flight.getPrice(), "", false);
         // Uppfæra sætið svo það sé bókað
         connection.updateSeat(flight.getID(), seat.getSeatNumber(), true);
         // Ef passenger sami og user þá uppfæra upplýsingar

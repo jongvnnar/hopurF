@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS Flight(
 	arrival VARCHAR(30),
 	departTime DATETIME,
 	arrivalTime DATETIME,
+	price INT,
 	FOREIGN KEY (depart)
         REFERENCES Airport (name)
         ON UPDATE CASCADE

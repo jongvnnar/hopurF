@@ -111,12 +111,12 @@ public class FlDataConnection {
 
     public Flight getFlightById(int id) throws Exception{
         getConnection();
-        PreparedStatement pstmt = conn.prepareStatement("SELECT id, flightNo, depart, arrival, departTime, arrivalTime FROM Flight WHERE id = ?");
+        PreparedStatement pstmt = conn.prepareStatement("SELECT id, flightNo, depart, arrival, departTime, arrivalTime, price FROM Flight WHERE id = ?");
         pstmt.setInt(1,id);
         ResultSet rs = pstmt.executeQuery();
         Airport depart = getAirportByName(rs.getString(3));
         Airport arrival = getAirportByName(rs.getString(4));
-        Flight ret =  new Flight(rs.getInt(1), rs.getString(2), depart, arrival, LocalDateTime.parse(rs.getString(5),datetimeformatter), LocalDateTime.parse(rs.getString(6), datetimeformatter), getSeatsForFlight(id));
+        Flight ret =  new Flight(rs.getInt(1), rs.getString(2), depart, arrival, LocalDateTime.parse(rs.getString(5),datetimeformatter), LocalDateTime.parse(rs.getString(6), datetimeformatter), getSeatsForFlight(id), rs.getInt(7));
         pstmt.close();
         rs.close();
         closeConnection();
@@ -127,14 +127,14 @@ public class FlDataConnection {
         getConnection();
         Statement stmt = conn.createStatement();
         //String whereDate = "";
-        String whereDate = "where departTime >= date('now')";
-        ResultSet rs = stmt.executeQuery("SELECT id, flightNo, depart, arrival, departTime, arrivalTime FROM Flight" + whereDate);
+        String whereDate = " where departTime >= date('now')";
+        ResultSet rs = stmt.executeQuery("SELECT id, flightNo, depart, arrival, departTime, arrivalTime, price FROM Flight" + whereDate);
         ArrayList<Flight> res = new ArrayList<Flight>();
         while(rs.next()){
             int flightId = rs.getInt(1);
             Airport depart = getAirportByName(rs.getString(3));
             Airport arrival = getAirportByName(rs.getString(4));
-            Flight newFlight =  new Flight(flightId, rs.getString(2), depart, arrival, LocalDateTime.parse(rs.getString(5),datetimeformatter), LocalDateTime.parse(rs.getString(6), datetimeformatter), getSeatsForFlight(flightId));
+            Flight newFlight =  new Flight(flightId, rs.getString(2), depart, arrival, LocalDateTime.parse(rs.getString(5),datetimeformatter), LocalDateTime.parse(rs.getString(6), datetimeformatter), getSeatsForFlight(flightId), rs.getInt(7));
             res.add(newFlight);
         }
         rs.close();
@@ -219,12 +219,13 @@ public class FlDataConnection {
     }
     public void createFlight(Flight fl) throws Exception{
         getConnection();
-        PreparedStatement pstmt = conn.prepareStatement("INSERT INTO Flight (flightNo, depart, arrival, departTime, arrivalTime) VALUES (?, ?, ?, ?, ?)");
+        PreparedStatement pstmt = conn.prepareStatement("INSERT INTO Flight (flightNo, depart, arrival, departTime, arrivalTime, price) VALUES (?, ?, ?, ?, ?, ?)");
         pstmt.setString(1, fl.getFlightNo());
-        pstmt.setString(2, fl.getArrival().getName());
-        pstmt.setString(3, fl.getDeparture().getName());
-        pstmt.setString(4, fl.getArrivalTime().format(datetimeformatter));
-        pstmt.setString(5, fl.getDepartureTime().format(datetimeformatter));
+        pstmt.setString(2, fl.getDeparture().getName());
+        pstmt.setString(3, fl.getArrival().getName());
+        pstmt.setString(4, fl.getDepartureTime().format(datetimeformatter));
+        pstmt.setString(5, fl.getArrivalTime().format(datetimeformatter));
+        pstmt.setInt(6, fl.getPrice());
         pstmt.executeUpdate();
         pstmt.close();
         closeConnection();
@@ -282,7 +283,7 @@ public class FlDataConnection {
             int flightId = rs.getInt(1);
             Airport depart = getAirportByName(rs.getString(3));
             Airport arrive = getAirportByName(rs.getString(4));
-            Flight newFlight =  new Flight(flightId, rs.getString(2), depart, arrive, LocalDateTime.parse(rs.getString(5),datetimeformatter), LocalDateTime.parse(rs.getString(6), datetimeformatter), getSeatsForFlight(flightId));
+            Flight newFlight =  new Flight(flightId, rs.getString(2), depart, arrive, LocalDateTime.parse(rs.getString(5),datetimeformatter), LocalDateTime.parse(rs.getString(6), datetimeformatter), getSeatsForFlight(flightId), rs.getInt(7));
             res.add(newFlight);
         }
         pstmt.close();
@@ -579,6 +580,11 @@ public class FlDataConnection {
     public static void main(String[] args) {
         FlDataConnection connection = new FlDataConnection();
         //connection.getAllPersons();
+        /*
+        for(int i = 1; i < 745; i++){
+            connection.createSeatsForFlight(i, 20, 6);
+        }
+         */
         try {
             System.out.println("Prenta flug með id = 1");
             Flight firstFlight = connection.getFlightById(1);
@@ -603,9 +609,23 @@ public class FlDataConnection {
         }
         try{
             ArrayList<Airport> test = connection.getAirports();
-            System.out.println("Prenta alla flugvelli");
-            for(Airport e: test){
-                System.out.println(e.toString());
+            System.out.println("Búa til flug");
+            String[] flightNums = {"FI302", "AN202", "BB703", "ON332", "FX208", "LI534", "FN292", "DR893", "BK832", "FI321", "FK982", "BS312"};
+            //Keyrir aldrei
+            for(int i = 1; i <= 0; i++ ) {
+                for (Airport e : test) {
+                    for (Airport f : test) {
+                        if (e.getName().equals(f.getName())) continue;
+                        LocalDateTime departTime = LocalDateTime.of(2021, 5, i, 15, 20);
+                        LocalDateTime arrivalTime = LocalDateTime.of(2021, 5, i, 17, 20);
+                        Flight newFlight = new Flight(-1, flightNums[(int) (Math.random()*flightNums.length)], e, f, departTime, arrivalTime,null,(600-12*(i-1))/3);
+                        connection.createFlight(newFlight);
+                        departTime = LocalDateTime.of(2021, 5, i, 12, 20);
+                        arrivalTime = LocalDateTime.of(2021, 5, i, 14, 20);
+                        Flight newFlight2 = new Flight(-1, flightNums[(int) (Math.random()*flightNums.length)], e, f, departTime, arrivalTime,null,(600-12*(i-1))/3);
+                        connection.createFlight(newFlight2);
+                    }
+                }
             }
         }
         catch(Exception e){

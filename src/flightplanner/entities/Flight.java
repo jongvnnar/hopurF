@@ -11,7 +11,8 @@ public class Flight {
     private LocalDateTime departureTime;
     private LocalDateTime arrivalTime;
     private ArrayList<Seat> seats;
-    public Flight(int ID, String flightNo, Airport departure, Airport arrival, LocalDateTime departureTime, LocalDateTime arrivalTime,ArrayList<Seat> seats){
+    private int price;
+    public Flight(int ID, String flightNo, Airport departure, Airport arrival, LocalDateTime departureTime, LocalDateTime arrivalTime,ArrayList<Seat> seats, int price){
         this.ID = ID;
         this.flightNo = flightNo;
         this.departure = departure;
@@ -19,6 +20,7 @@ public class Flight {
         this.departureTime = departureTime;
         this.arrivalTime = arrivalTime;
         this.seats = seats;
+        this.price = price;
     }
 
     public int getID() {
@@ -66,6 +68,14 @@ public class Flight {
         this.flightNo = flightNo;
     }
 
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
     public String toString() {
         return "Flight{" +
                 "ID=" + ID +
@@ -74,6 +84,7 @@ public class Flight {
                 ", arrival=" + arrival +
                 ", departureTime=" + departureTime +
                 ", arrivalTime=" + arrivalTime +
+                ", price = " + price +
                 '}';
     }
 }

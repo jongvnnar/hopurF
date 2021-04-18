@@ -26,7 +26,7 @@ public class OnlineDataMock implements FlightDataConnection{
         mockSeat = new Seat("ff", false);
         ArrayList<Seat> seats = new ArrayList<Seat>();
         seats.add(mockSeat);
-        mockFlight = new Flight(1, "TF-OMG", new Airport(2, "KEF", "Keflavik", "keflavik"), new Airport(3, "RVK", "Reykjavik", "reykjavik"), LocalDateTime.now(), LocalDateTime.now(),seats);
+        mockFlight = new Flight(1, "TF-OMG", new Airport(2, "KEF", "Keflavik", "keflavik"), new Airport(3, "RVK", "Reykjavik", "reykjavik"), LocalDateTime.now(), LocalDateTime.now(),seats, 10000);
         mockPerson = new Person(1, "Jon", "Jonsson", "9999999999", "email@email.is", "(354) 777-777");
         mockPassenger = new Passenger(1, "Jon", "Jonsson", "9999999999", "email@email.is", "(354) 777-777");
         mockBooking = new Booking(1, mockPassenger, mockPerson, mockFlight, mockSeat, 200, "Heima", false);
