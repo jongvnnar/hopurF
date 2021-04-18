@@ -122,7 +122,14 @@ public class FlDataConnection {
         closeConnection();
         return ret;
     }
-
+    public void deleteBooking(Booking booking) throws Exception{
+        getConnection();
+        PreparedStatement pstmt = conn.prepareStatement("DELETE FROM Bookings WHERE id = ?");
+        pstmt.setInt(1, booking.getID());
+        pstmt.executeUpdate();
+        pstmt.close();
+        closeConnection();
+    }
     public ArrayList<Flight> getAllFlights() throws Exception{
         getConnection();
         Statement stmt = conn.createStatement();

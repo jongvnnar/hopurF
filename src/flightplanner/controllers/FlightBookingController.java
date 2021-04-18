@@ -44,4 +44,9 @@ public class FlightBookingController {
         // Búa til bókun
         connection.createBooking(booking);
     }
+
+    public void cancelBooking(Booking booking) throws Exception{
+        connection.deleteBooking(booking);
+        connection.updateSeat(booking.getFlight().getID(), booking.getSeat().getSeatNumber(), false);
+    }
 }
