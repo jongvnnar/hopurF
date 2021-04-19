@@ -94,7 +94,7 @@ public class Controller implements Initializable {
         LocalDate toTime = toDatePicker.getValue();
         try {
             flights.clear();
-            flights.addAll(connection.getFlightsByFilter(arrive, depart, fromTime, toTime));
+            flights.addAll(connection.getFlightsByFilter(depart, arrive, fromTime, toTime));
             flightListView.setItems(flights);
         } catch (Exception e) {
             System.err.println(e.getMessage());
