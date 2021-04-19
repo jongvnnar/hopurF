@@ -13,13 +13,9 @@ CREATE TABLE IF NOT EXISTS Flight(
 	arrivalTime DATETIME,
 	price INT,
 	FOREIGN KEY (depart)
-        REFERENCES Airport (name)
-        ON UPDATE CASCADE
-        ON DELETE CASCADE,
+        REFERENCES Airport (name,)
 	FOREIGN KEY (arrival)
         REFERENCES Airport (name)
-        ON UPDATE CASCADE
-        ON DELETE CASCADE
 );
 CREATE TABLE IF NOT EXISTS Seats(
 	seatNo VARCHAR(30),
@@ -27,8 +23,6 @@ CREATE TABLE IF NOT EXISTS Seats(
 	isBooked INT DEFAULT 0 NOT NULL,
 	FOREIGN KEY (flight)
         REFERENCES Flight (id)
-        ON UPDATE CASCADE
-        ON DELETE CASCADE
 );
 CREATE TABLE IF NOT EXISTS Person(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -58,19 +52,11 @@ CREATE TABLE IF NOT EXISTS Bookings(
     billingAddress VARCHAR(30),
     paymentMade INT DEFAULT FALSE NOT NULL,
     FOREIGN KEY (flight)
-    	REFERENCES Flight (id)
-    	ON UPDATE CASCADE
-    	ON DELETE CASCADE,
+    	REFERENCES Flight (id),
     FOREIGN KEY (passenger)
-    	REFERENCES Person (id)
-    	ON UPDATE CASCADE
-    	ON DELETE CASCADE,
+    	REFERENCES Person (id),
     FOREIGN KEY (customer)
-        	REFERENCES Person (id)
-        	ON UPDATE CASCADE
-        	ON DELETE CASCADE,
+        	REFERENCES Person (id),
     FOREIGN KEY (seatNo)
         	REFERENCES Seats (seatNo)
-        	ON UPDATE CASCADE
-        	ON DELETE CASCADE
 );
