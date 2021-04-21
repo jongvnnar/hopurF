@@ -18,8 +18,10 @@ public class FlightBookingController {
         }
         return instance;
     }
+
     /**
-     * Creates booking based on information saved.
+     * Creates booking in database.
+     * @throws Exception if booking process fails
      */
     public void createBooking() throws Exception{
         Passenger passenger = information.getCurrentPassenger();
@@ -45,6 +47,11 @@ public class FlightBookingController {
         connection.createBooking(booking);
     }
 
+    /**
+     * Cancels booking, deletes it from database.
+     * @param booking Booking to be deleted.
+     * @throws Exception if deletion process fails
+     */
     public void cancelBooking(Booking booking) throws Exception{
         connection.deleteBooking(booking);
         connection.updateSeat(booking.getFlight().getID(), booking.getSeat().getSeatNumber(), false);

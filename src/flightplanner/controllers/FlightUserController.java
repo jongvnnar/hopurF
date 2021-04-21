@@ -23,7 +23,7 @@ public class FlightUserController {
     }
 
     /**
-     * Saves customer, who is the User
+     * Saves customer to local storage (Info instance).
      * @param customer the user.
      */
     public void saveCustomer(User customer){
@@ -42,7 +42,7 @@ public class FlightUserController {
     }
 
     /**
-     * Saves passenger
+     * Saves passenger to local storage (Info instance).
      */
     public void savePassenger(Passenger passenger){
         information.setCurrentPassenger(passenger);
